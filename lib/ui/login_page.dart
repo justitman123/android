@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:the_gorgeous_login/style/theme.dart' as Theme;
 import 'package:the_gorgeous_login/ui/HomePage.dart';
-import 'package:the_gorgeous_login/utils/NetworkService.dart';
 import 'package:the_gorgeous_login/utils/bubble_indication_painter.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,7 +16,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
-  NetworkService networkService = new NetworkService();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final FocusNode myFocusNodeEmailLogin = FocusNode();
@@ -686,10 +684,10 @@ class _LoginPageState extends State<LoginPage>
     };
     print(body.keys);
     print(body.values);
-    var post2 = networkService.post(GOOGLE_AUTH_URL, body: body);
+//    var post2 = networkService.post(GOOGLE_AUTH_URL, body: body);
 
-    print(post2);
-    return post2;
+//    print(post2);
+    return "sdfds";
   }
 
   Future singIn() async {
@@ -698,7 +696,7 @@ class _LoginPageState extends State<LoginPage>
       "email": loginEmailController.text,
       "password": loginPasswordController.text,
     };
-    var post2 = networkService.loginPost(GOOGLE_AUTH_URL, body: body);
+//    var post2 = networkService.loginPost(GOOGLE_AUTH_URL, body: body);
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
 //    Navigator.pushAndRemoveUntil(
