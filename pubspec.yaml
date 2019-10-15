@@ -1,41 +1,42 @@
-name: the_gorgeous_login
-description: Gorgeous Login UI
-
+name: bmi_calculator
+description: A new Flutter project.
 version: 1.0.0+1
-
-environment:
-  sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  http: 0.12.0+2
-  cupertino_icons: ^0.1.2
+  flutter_svg: 0.14.2
   scoped_model: 1.0.1
-  flutter_secure_storage: ^3.3.1+1
+  connectivity:
+#  flutter_secure_storage:
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  font_awesome_flutter: ^8.0.1
-
 flutter:
-
   uses-material-design: true
-
   assets:
-      - assets/login_logo.png
-
+    - images/
   fonts:
-    - family: WorkSansSemiBold
+    - family: SF Pro Display
       fonts:
-        - asset: assets/fonts/Work_Sans/WorkSans-SemiBold.ttf
-
-    - family: WorkSansBold
-      fonts:
-        - asset: assets/fonts/Work_Sans/WorkSans-Bold.ttf
-
-    - family: WorkSansMedium
-      fonts:
-        - asset: assets/fonts/Work_Sans/WorkSans-Medium.ttf
+        - asset: fonts/SF-Pro-Display-Ultralight.otf
+          weight: 100
+        - asset: fonts/SF-Pro-Display-Thin.otf
+          weight: 200
+        - asset: fonts/SF-Pro-Display-Light.otf
+          weight: 300
+        - asset: fonts/SF-Pro-Display-Regular.otf
+          weight: 400
+        - asset: fonts/SF-Pro-Display-Medium.otf
+          weight: 500
+        - asset: fonts/SF-Pro-Display-Semibold.otf
+          weight: 600
+        - asset: fonts/SF-Pro-Display-Bold.otf
+          weight: 700
+        - asset: fonts/SF-Pro-Display-Heavy.otf
+          weight: 800
+        - asset: fonts/SF-Pro-Display-Black.otf
+          weight: 900

@@ -1,49 +1,40 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import "package:flutter/material.dart";
-import "package:scoped_model/scoped_model.dart";
-import 'package:the_gorgeous_login/ui/Home.dart';
-import "package:the_gorgeous_login/utils/Model.dart" show ChatModel, model;
+import 'package:bmi_calculator/input_page/page_splash.dart';
+import 'package:flutter/material.dart';
 
 void main() {
-  final storage = new FlutterSecureStorage();
-
-  startApp() async {
-    var read = await storage.read(key: "token");
-    print(read);
-
-    runApp(Chat());
-  }
-
-  startApp();
+  runApp(MyApp());
 }
 
-class Chat extends StatelessWidget {
-
+class MyApp extends StatelessWidget {
   @override
-  Widget build(final BuildContext context) {
-    return MaterialApp(home : Scaffold(body : ChatMain()));
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter UI Collections',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: CollectionApp(),
+    );
   }
-}/* End class. */
+}
 
-class ChatMain extends StatelessWidget {
+class CollectionApp extends StatelessWidget {
 
   @override
-  Widget build(final BuildContext inContext) {
+  Widget build(BuildContext context) {
 
-    model.rootBuildContext = inContext;
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Theme.of(context).primaryColor,
+        ),
+        home: SplashScreen()
+    );
+  }
+}
 
-    return ScopedModel<ChatModel>(model : model, child : ScopedModelDescendant<ChatModel>(
-        builder : (BuildContext inContext, Widget inChild, ChatModel inModel) {
-          return MaterialApp(initialRoute : "/",
-              routes : {
-//                "/Lobby" : (screenContext) => Lobby(),
-//                "/Room" : (screenContext) => Room(),
-//                "/UserList" : (screenContext) => UserList(),
-//                "/CreateRoom" : (screenContext) => CreateRoom()
-              },
-              home : Home()
-          );
-        }
-    ));
-  } /* End build(). */
-} /* End class. */
+
+
+
+
