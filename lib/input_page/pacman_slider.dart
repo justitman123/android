@@ -119,33 +119,12 @@ class _PacmanSliderState extends State<PacmanSlider>
 
   _onPacmanSubmited() {
     widget?.onSubmit();
-    Future.delayed(Duration(seconds: 1), () => _resetPacman());
-  }
-
-  _onPacmanEnd(double width, DragEndDetails details) {
-    bool isOverHalf =
-        _pacmanPosition + screenAwareSize(_pacmanWidth / 2, context) >
-            0.5 * width;
-    if (isOverHalf) {
-      _animatePacmanToEnd();
-    } else {
-      _resetPacman();
-    }
   }
 
   _animatePacmanToEnd() {
     pacmanMovementController.forward(
         from: _pacmanPosition / _pacmanMaxPosition(width));
   }
-
-  _resetPacman() {
-    if (this.mounted) {
-      setState(() => _pacmanPosition = _pacmanMinPosition());
-    }
-  }
-
-  double _pacmanMinPosition() =>
-      screenAwareSize(_sliderHorizontalMargin, context);
 
   double _pacmanMaxPosition(double sliderWidth) =>
       screenAwareSize(_sliderHorizontalMargin, context);
