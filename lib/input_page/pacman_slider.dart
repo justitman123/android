@@ -71,13 +71,13 @@ class _PacmanSliderState extends State<PacmanSlider>
                 child: _submitWidthAnimation.isDismissed
                     ? GestureDetector(
                         behavior: HitTestBehavior.translucent,
-                        onTap: () => _animatePacmanToEnd(),
-                        child: Stack(
-                          alignment: Alignment.centerRight,
-                          children: <Widget>[
-                            _drawPacman(),
-                          ],
-                        ),
+                        onTap: () => widget?.onSubmit(),
+//                        child: Stack(
+//                          alignment: Alignment.centerRight,
+//                          children: <Widget>[
+////                            _drawPacman(),
+//                          ],
+//                        ),
                       )
                     : Container(),
               ),
@@ -87,41 +87,4 @@ class _PacmanSliderState extends State<PacmanSlider>
       },
     );
   }
-
-  Widget _drawPacman() {
-    pacmanAnimation = _initPacmanAnimation();
-    return Positioned(
-      left: _pacmanPosition,
-      child: Container(),
-    );
-  }
-
-  Animation<double> _initPacmanAnimation() {
-    Animation<double> animation = Tween(
-      begin: screenAwareSize(_sliderHorizontalMargin, context),
-      end: screenAwareSize(_sliderHorizontalMargin, context),
-    ).animate(pacmanMovementController);
-
-    animation.addListener(() {
-      setState(() {
-        _pacmanPosition = animation.value;
-      });
-      if (animation.status == AnimationStatus.completed) {
-        _onPacmanSubmited();
-      }
-    });
-    return animation;
-  }
-
-  _onPacmanSubmited() {
-    widget?.onSubmit();
-  }
-
-  _animatePacmanToEnd() {
-    pacmanMovementController.forward(
-        from: _pacmanPosition / _pacmanMaxPosition(width));
-  }
-
-  double _pacmanMaxPosition(double sliderWidth) =>
-      screenAwareSize(_sliderHorizontalMargin, context);
 }
