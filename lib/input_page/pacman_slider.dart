@@ -92,10 +92,7 @@ class _PacmanSliderState extends State<PacmanSlider>
     pacmanAnimation = _initPacmanAnimation();
     return Positioned(
       left: _pacmanPosition,
-      child: GestureDetector(
-        onHorizontalDragEnd: (details) => _animatePacmanToEnd(),
-        child: Container(),
-      ),
+      child: Container(),
     );
   }
 
