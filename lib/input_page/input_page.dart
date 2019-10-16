@@ -81,6 +81,6 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
   }
 
   _goToResultPage() async {
-    return Container();
+    return Scaffold();
   }
 }

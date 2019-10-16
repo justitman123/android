@@ -1,8 +1,6 @@
 import 'package:bmi_calculator/widget_utils.dart';
 import 'package:flutter/material.dart';
 
-const double _sliderHorizontalMargin = 24.0;
-
 class PacmanSlider extends StatefulWidget {
   final VoidCallback onSubmit;
   final AnimationController submitAnimationController;
@@ -16,17 +14,12 @@ class PacmanSlider extends StatefulWidget {
 
 class _PacmanSliderState extends State<PacmanSlider>
     with TickerProviderStateMixin {
-  double _pacmanPosition = 24.0;
   Animation<BorderRadius> _bordersAnimation;
   Animation<double> _submitWidthAnimation;
-  AnimationController pacmanMovementController;
-  Animation<double> pacmanAnimation;
 
   @override
   void initState() {
     super.initState();
-    pacmanMovementController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     _bordersAnimation = BorderRadiusTween(
       begin: BorderRadius.circular(8.0),
       end: BorderRadius.circular(50.0),
@@ -38,23 +31,13 @@ class _PacmanSliderState extends State<PacmanSlider>
 
   @override
   void dispose() {
-    pacmanMovementController.dispose();
     super.dispose();
   }
-
-  double get width => _submitWidthAnimation?.value ?? 0.0;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        _submitWidthAnimation = Tween<double>(
-          begin: constraints.maxWidth,
-          end: screenAwareSize(52.0, context),
-        ).animate(CurvedAnimation(
-          parent: widget.submitAnimationController,
-          curve: Interval(0.05, 0.15),
-        ));
         return AnimatedBuilder(
           animation: widget.submitAnimationController,
           builder: (context, child) {
@@ -65,22 +48,15 @@ class _PacmanSliderState extends State<PacmanSlider>
 
             return Center(
               child: Container(
-                height: screenAwareSize(52.0, context),
-                width: width,
-                decoration: decoration,
-                child: _submitWidthAnimation.isDismissed
-                    ? GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () => widget?.onSubmit(),
-//                        child: Stack(
-//                          alignment: Alignment.centerRight,
-//                          children: <Widget>[
-////                            _drawPacman(),
-//                          ],
-//                        ),
-                      )
-                    : Container(),
-              ),
+                  height: screenAwareSize(52.0, context),
+                  decoration: decoration,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => widget?.onSubmit(),
+                    child: Center(
+                      child: Text('sdfsdf'),
+                    ),
+                  )),
             );
           },
         );
