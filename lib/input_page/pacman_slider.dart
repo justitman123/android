@@ -1,8 +1,5 @@
-import 'dart:math' as math;
-
 import 'package:bmi_calculator/widget_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 const double _pacmanWidth = 21.0;
 const double _sliderHorizontalMargin = 24.0;
@@ -74,15 +71,15 @@ class _PacmanSliderState extends State<PacmanSlider>
                 decoration: decoration,
                 child: _submitWidthAnimation.isDismissed
                     ? GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () => _animatePacmanToEnd(),
-                  child: Stack(
-                    alignment: Alignment.centerRight,
-                    children: <Widget>[
-                      _drawPacman(),
-                    ],
-                  ),
-                )
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () => _animatePacmanToEnd(),
+                        child: Stack(
+                          alignment: Alignment.centerRight,
+                          children: <Widget>[
+                            _drawPacman(),
+                          ],
+                        ),
+                      )
                     : Container(),
               ),
             );
@@ -97,7 +94,7 @@ class _PacmanSliderState extends State<PacmanSlider>
     return Positioned(
       left: _pacmanPosition,
       child: GestureDetector(
-        onHorizontalDragEnd: (details) => _onPacmanEnd(width, details),
+        onHorizontalDragEnd: (details) => _animatePacmanToEnd(),
         child: PacmanIcon(),
       ),
     );
@@ -105,8 +102,8 @@ class _PacmanSliderState extends State<PacmanSlider>
 
   Animation<double> _initPacmanAnimation() {
     Animation<double> animation = Tween(
-      begin: _pacmanMinPosition(),
-      end: _pacmanMaxPosition(width),
+      begin: screenAwareSize(_sliderHorizontalMargin, context),
+      end: screenAwareSize(_sliderHorizontalMargin, context),
     ).animate(pacmanMovementController);
 
     animation.addListener(() {
@@ -151,22 +148,15 @@ class _PacmanSliderState extends State<PacmanSlider>
       screenAwareSize(_sliderHorizontalMargin, context);
 
   double _pacmanMaxPosition(double sliderWidth) =>
-      sliderWidth -
-          screenAwareSize(_sliderHorizontalMargin / 2 + _pacmanWidth, context);
+      screenAwareSize(_sliderHorizontalMargin, context);
 }
 
 class PacmanIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        right: screenAwareSize(16.0, context),
-      ),
-      child: SvgPicture.asset(
-        'images/pacman.svg',
-        height: screenAwareSize(25.0, context),
-        width: screenAwareSize(21.0, context),
-      ),
-    );
+        padding: EdgeInsets.only(
+      right: screenAwareSize(16.0, context),
+    ));
   }
 }
