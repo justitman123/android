@@ -1,7 +1,6 @@
 import 'package:bmi_calculator/widget_utils.dart';
 import 'package:flutter/material.dart';
 
-const double _pacmanWidth = 21.0;
 const double _sliderHorizontalMargin = 24.0;
 
 class PacmanSlider extends StatefulWidget {
@@ -95,7 +94,7 @@ class _PacmanSliderState extends State<PacmanSlider>
       left: _pacmanPosition,
       child: GestureDetector(
         onHorizontalDragEnd: (details) => _animatePacmanToEnd(),
-        child: PacmanIcon(),
+        child: Container(),
       ),
     );
   }
@@ -128,14 +127,4 @@ class _PacmanSliderState extends State<PacmanSlider>
 
   double _pacmanMaxPosition(double sliderWidth) =>
       screenAwareSize(_sliderHorizontalMargin, context);
-}
-
-class PacmanIcon extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(
-      right: screenAwareSize(16.0, context),
-    ));
-  }
 }
