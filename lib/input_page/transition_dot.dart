@@ -2,6 +2,21 @@ import 'dart:math' as math;
 
 import 'package:bmi_calculator/widget_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+class  extends StatefulWidget {
+  @override
+  _State createState() => _State();
+}
+
+class _State extends State<> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+
 
 class TransitionDot extends AnimatedWidget {
   TransitionDot({Key key, Listenable animation})
@@ -17,16 +32,9 @@ class TransitionDot extends AnimatedWidget {
         ),
       );
 
-  Animation<double> get sizeAnimation => LoopedSizeAnimation().animate(
-        CurvedAnimation(
-          parent: super.listenable,
-          curve: Interval(0.3, 1.0),
-        ),
-      );
-
   @override
   Widget build(BuildContext context) {
-    double scaledSize = screenAwareSize(sizeAnimation.value, context);
+    double scaledSize = screenAwareSize(52, context);
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     double height = math.min(scaledSize, deviceHeight);
@@ -36,11 +44,6 @@ class TransitionDot extends AnimatedWidget {
       color: Theme.of(context).primaryColor,
     );
 
-    Widget dot = Container(
-      decoration: decoration,
-      width: width,
-      height: height,
-    );
     return IgnorePointer(
       child: Opacity(
         opacity: positionAnimation.value > 0 ? 1.0 : 0.0,
@@ -50,7 +53,12 @@ class TransitionDot extends AnimatedWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Spacer(flex: 104 - positionAnimation.value),
-                dot,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SpinKitDoubleBounce(color: Colors.blue),
+                  ],
+                ),
                 Spacer(flex: 4 + positionAnimation.value),
               ],
             ),
@@ -58,24 +66,5 @@ class TransitionDot extends AnimatedWidget {
         ),
       ),
     );
-  }
-}
-
-class LoopedSizeAnimation extends Animatable<double> {
-  final double defaultSize = 52.0;
-  final double expansionRange = 30.0;
-  final int numberOfCycles = 2;
-  final double fullExpansionEdge = 0.8;
-
-  @override
-  double transform(double t) {
-    if (t < fullExpansionEdge) {
-      double normalizedT = t / fullExpansionEdge;
-      return defaultSize +
-          math.sin(numberOfCycles * 2 * math.pi * normalizedT) * expansionRange;
-    } else {
-      double normalizedT = (t - fullExpansionEdge) / (1 - fullExpansionEdge);
-      return defaultSize + normalizedT * 2000.0;
-    }
   }
 }

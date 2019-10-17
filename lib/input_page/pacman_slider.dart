@@ -34,10 +34,19 @@ class _PacmanSliderState extends State<PacmanSlider>
     super.dispose();
   }
 
+  double get width => _submitWidthAnimation?.value ?? 0.0;
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
+        _submitWidthAnimation = Tween<double>(
+          begin: constraints.maxWidth,
+          end: screenAwareSize(52.0, context),
+        ).animate(CurvedAnimation(
+          parent: widget.submitAnimationController,
+          curve: Interval(0.05, 0.15),
+        ));
         return AnimatedBuilder(
           animation: widget.submitAnimationController,
           builder: (context, child) {
@@ -49,6 +58,7 @@ class _PacmanSliderState extends State<PacmanSlider>
             return Center(
               child: Container(
                   height: screenAwareSize(52.0, context),
+                  width: width,
                   decoration: decoration,
                   child: GestureDetector(
                     behavior: HitTestBehavior.translucent,

@@ -27,7 +27,7 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
     super.initState();
     _submitAnimationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 4),
     );
     _submitAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
