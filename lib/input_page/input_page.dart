@@ -1,13 +1,10 @@
+import 'package:bmi_calculator/input_page/choose.dart';
 import 'package:bmi_calculator/input_page/pacman_slider.dart';
 import 'package:bmi_calculator/input_page/responsive_screen.dart';
 import 'package:bmi_calculator/input_page/transition_dot.dart';
-import 'package:bmi_calculator/input_page/utils_widget.dart';
+import 'package:bmi_calculator/input_page/utils.dart';
 import 'package:bmi_calculator/widget_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:bmi_calculator/input_page/utils.dart';
-
-import "ChatModel.dart" show ChatModel, model;
-import 'choose.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -27,13 +24,14 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
     super.initState();
     _submitAnimationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 4),
+      duration: Duration(milliseconds: 1900),
     );
-    _submitAnimationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _goToResultPage().then((_) => _submitAnimationController.reset());
-      }
-    });
+    _submitAnimationController.addStatusListener(
+//      if (status == AnimationStatus.completed) {
+        (state) => print('$state')
+//        _goToResultPage().then((_) => _submitAnimationController.reset());
+//      }
+        );
   }
 
   @override
@@ -42,18 +40,46 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  Future<bool> _onWillPop() {
+    return showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit an App'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => {},
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () => {
+                  Navigator.pop(context),
+                  _submitAnimationController.reverse()
+                },
+                child: new Text('Yes'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
     size = Screen(MediaQuery.of(context).size);
     return Stack(
       children: <Widget>[
-        Scaffold(
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SearchPage(),
-              _buildBottom(context),
-            ],
+        WillPopScope(
+          onWillPop: _onWillPop,
+          child: Scaffold(
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SearchPage(),
+                _buildBottom(context),
+              ],
+            ),
           ),
         ),
         TransitionDot(animation: _submitAnimationController),
@@ -78,9 +104,5 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
 
   void onPacmanSubmit() {
     _submitAnimationController.forward();
-  }
-
-  _goToResultPage() async {
-    return Scaffold();
   }
 }

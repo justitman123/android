@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
           width: size.getWidthPx(300),
           height: size.getWidthPx(300),
 //          child: Image.asset("assets/icons/logo_splash.png")))
-          child: Text('fdgfdg')))
+          child: Text('111fdgfdg')))
     );
   }
 
