@@ -1,8 +1,4 @@
-import 'dart:math' as math;
-
-import 'package:bmi_calculator/widget_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'SpinKitDoubleBounce1.dart';
 
@@ -19,10 +15,6 @@ class TransitionDot extends AnimatedWidget {
           curve: Interval(0.15, 0.3),
         ),
       );
-
-  Future<String> goToRandomChat() async {
-    return "fdsfdsf";
-  }
 
   @override
   Widget build(BuildContext context) {

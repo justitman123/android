@@ -8,6 +8,7 @@ dependencies:
   flutter_svg: 0.14.2
   scoped_model: 1.0.1
   flutter_spinkit: ^4.0.0
+  web_socket_channel: ^1.0.13
 #  connectivity:
 #  flutter_secure_storage:
 
