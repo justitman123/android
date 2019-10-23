@@ -5,8 +5,12 @@ import 'package:bmi_calculator/input_page/transition_dot.dart';
 import 'package:bmi_calculator/input_page/utils.dart';
 import 'package:bmi_calculator/widget_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:web_socket_channel/io.dart';
+import 'package:jstomp/jstomp.dart';
+import "package:stomp/stomp.dart";
+import "package:stomp/vm.dart" show connect;
 import 'package:web_socket_channel/web_socket_channel.dart';
+
+import 'JStomps.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -16,26 +20,64 @@ class InputPage extends StatefulWidget {
 }
 
 class InputPageState extends State<InputPage> with TickerProviderStateMixin {
-  final WebSocketChannel channel = IOWebSocketChannel.connect(
-    Uri(scheme: "ws", host: "192.168.99.100", port: 8080, path: "/socket"),
-  );
+  WebSocketChannel _channel;
+
+//  final WebSocketChannel channel = IOWebSocketChannel.connect(
+//    Uri(scheme: "ws", host: "192.168.99.100", port: 8080, path: "/socket"),
+//  );
   Screen size;
   AnimationController _submitAnimationController;
   int height = 180;
   int weight = 70;
+  static const String API_DMS_WEB_SOCKET_HOST = '192.168.99.1';
+  JStomps stomp;
+
+  Future _initStomp() async {
+    if (stomp == null) {
+      stomp = JStomps.instance;
+    }
+    String userId = "104435390701569";
+    String url = "ws://192.168.99.1:8060/chat/ws/423/rmtbxzr4/websocket";
+    bool b = await stomp.init(url: url, sendUrl: "");
+
+    print(b ? 'Initialization Succesfull' : 'Initialization Failed');
+
+    if (b) {
+      ///打开连接
+      await stomp.connection((open) {
+        print("The connection is open ...$open");
+      }, onError: (error) {
+        print("Connection open error...$error");
+      }, onClosed: (closed) {
+        print("Connection open error...$closed");
+      });
+    }
+
+//    ///订阅点对点通道
+//    final String p2p = "/groupMessage/channel/" + userId;
+//    await stomp.subscribP2P([p2p]);
+//
+//    ///订阅广播通道
+//    await stomp.subscribBroadcast(["groupBroadcast/message"]);
+    ;
+  }
 
   @override
   void initState() {
     super.initState();
+    _initStomp();
+//    ws://localhost:8080/ws/388/ihwkcezr/websocket
+//    0: "CONNECT↵chatRoomId:61050d46-5d90-4ecb-a1aa-c967434adc63↵accept-version:1.1,1.0↵heart-beat:10000,10000↵↵"
+//    "CONNECT\nchatRoomId:61050d46-5d90-4ecb-a1aa-c967434adc63\naccept-version:1.1,1.0\nheart-beat:10000,10000\n\n\u0000"
     _submitAnimationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1900),
     );
     _submitAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.forward) {
-          (state) => print('$state');
+        (state) => print('$state');
 //          goToRandomChat().then((_) => _submitAnimationController.reset());
-          goToRandomChat().then((_) => {});
+        goToRandomChat().then((_) => {});
       }
     });
   }
@@ -83,7 +125,7 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SearchPage(),
-                _buildBottom(context),
+//                _buildBottom(context),
               ],
             ),
           ),
