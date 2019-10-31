@@ -33,6 +33,9 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
   int weight = 70;
   static const String API_DMS_WEB_SOCKET_HOST = '192.168.99.1';
 
+  bool _isOpened = false;
+  bool darkmode = false;
+
   @override
   void initState() {
     super.initState();
@@ -77,28 +80,33 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
   }
 
   Future<bool> _onWillPop() {
-    return showDialog(
-          context: context,
-          barrierDismissible: true,
-          builder: (context) => new AlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('Do you want to exit an App'),
-            actions: <Widget>[
-              new FlatButton(
-                onPressed: () => {},
-                child: new Text('No'),
-              ),
-              new FlatButton(
-                onPressed: () => {
-                  Navigator.pop(context),
-                  _submitAnimationController.reverse()
-                },
-                child: new Text('Yes'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
+    if (_isOpened) {
+      return showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (context) {
+              return new AlertDialog(
+                title: new Text('Are you sure?'),
+                content: new Text('Do you want to exit an App'),
+                actions: <Widget>[
+                  new FlatButton(
+                    onPressed: () => {},
+                    child: new Text('No'),
+                  ),
+                  new FlatButton(
+                    onPressed: () => {
+                      Navigator.pop(context),
+                      _submitAnimationController.reverse(),
+                      _isOpened = false
+                    },
+                    child: new Text('Yes'),
+                  ),
+                ],
+              );
+            },
+          ) ??
+          false;
+    }
   }
 
   @override
@@ -110,6 +118,128 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
         WillPopScope(
           onWillPop: _onWillPop,
           child: Scaffold(
+              drawer: Drawer(
+                child: ListView(
+                  children: <Widget>[
+                    UserAccountsDrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFB33771),
+                      ),
+//                      accountName: Text("${userName()}"),
+//                      accountEmail: Text("${email()}"),
+                      currentAccountPicture: GestureDetector(
+                        child: CircleAvatar(
+                          backgroundColor: Colors.blueAccent,
+//                          child: Text("${photoUrl()}",
+//                              style: TextStyle(
+//                                fontSize: 35.0,
+//                                color: Colors.white,
+//                                fontWeight: FontWeight.bold,
+//                              )),
+                        ),
+                      ),
+                    ),
+                    ListTile(
+                      leading: darkmode
+                          ? Image.asset(
+                        'images/moon.png',
+                        height: 30.0,
+                        width: 26.0,
+                      )
+                          : Image.asset(
+                        'images/sunny.png',
+                        height: 30.0,
+                        width: 26.0,
+                      ),
+                      title: Text("DarkMode"),
+                      trailing: Switch(
+                        value: darkmode,
+                        onChanged: (val) {
+                          setState(() {
+                            darkmode = val;
+                          });
+                          if (darkmode) {
+//                            theme.setTheme(ThemeData.dark());
+//                          } else {
+//                            theme.setTheme(ThemeData.light());
+                          }
+                        },
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+//                        Navigator.of(context)
+//                            .push(MaterialPageRoute(builder: (context) => MyAccount()));
+                      },
+                      child: _showList(
+                        "My Account",
+                        (Icons.account_box),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+//                        Navigator.of(context)
+//                            .push(MaterialPageRoute(builder: (context) => MyOrders()));
+                      },
+                      child: _showList(
+                        "My Orders",
+                        (Icons.shopping_basket),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+//                        Navigator.of(context)
+//                            .push(MaterialPageRoute(builder: (context) => Settings()));
+                      },
+                      child: _showList(
+                        "Settings",
+                        (Icons.settings),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+//                        Navigator.of(context)
+//                            .push(MaterialPageRoute(builder: (context) => About()));
+                      },
+                      child: _showList(
+                        "About",
+                        (Icons.adjust),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+//                        Navigator.of(context)
+//                            .push(MaterialPageRoute(builder: (context) => Contact()));
+                      },
+                      child: _showList(
+                        "Contact",
+                        (Icons.contact_phone),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            appBar: AppBar(
+              titleSpacing: 2.0,
+              elevation: 0,
+              backgroundColor: colorCurve,
+              title: Text("e-Bazaar"),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+//                    showSearch(context: context, delegate: ProductSearch());
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.shopping_cart),
+                  onPressed: () {
+//                    Navigator.of(context)
+//                        .push(MaterialPageRoute(builder: (context) => Cart()));
+                  },
+                ),
+              ],
+            ),
               body: Container(
             child: Column(
               children: <Widget>[
@@ -153,6 +283,16 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
     );
   }
 
+  Widget _showList(String s, IconData i) {
+    return ListTile(
+      leading: Icon(
+        i,
+        color: Colors.yellow[700],
+      ),
+      title: Text(s),
+    );
+  }
+
   Widget _buildBottom(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
@@ -169,6 +309,7 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
   }
 
   void onPacmanSubmit() {
+    _isOpened = true;
     _submitAnimationController.forward();
   }
 
@@ -185,5 +326,40 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
         i = 0;
       }
     }
+  }
+}
+class GradientAppBar extends StatelessWidget {
+
+  final String title;
+  final double barHeight = 50.0;
+
+  GradientAppBar(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    final double statusbarHeight = MediaQuery
+        .of(context)
+        .padding
+        .top;
+
+    return new Container(
+      padding: new EdgeInsets.only(top: statusbarHeight),
+      height: statusbarHeight + barHeight,
+      child: new Center(
+        child: new Text(
+          title,
+          style: new TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
+      decoration: new BoxDecoration(
+        gradient: new LinearGradient(
+            colors: [Colors.red, Colors.blue],
+            begin: const FractionalOffset(0.0, 0.0),
+            end: const FractionalOffset(0.5, 0.0),
+            stops: [0.0, 1.0],
+            tileMode: TileMode.clamp
+        ),
+      ),
+    );
   }
 }

@@ -30,18 +30,19 @@ class SearchPage extends StatelessWidget {
         ClipPath(
           clipper: UpperClipper(),
           child: Container(
-            height: size.getWidthPx(240),
+            height: size.getWidthPx(180),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [colorCurve, colorCurveSecondary],
-              ),
+              color: colorCurve,
+//              gradient: LinearGradient(
+//                colors: [colorCurve, colorCurveSecondary],
+//              ),
             ),
           ),
         ),
         Column(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top: size.getWidthPx(36)),
+              padding: EdgeInsets.only(top: size.getWidthPx(6)),
               child: Column(
                 children: <Widget>[
                   titleWidget(),
