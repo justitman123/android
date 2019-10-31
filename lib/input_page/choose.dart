@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import "package:scoped_model/scoped_model.dart";
 
 import "ChatModel.dart" show ChatModel, model;
+import 'input_page_styles.dart';
 
 class SearchPage extends StatelessWidget {
   Screen size;

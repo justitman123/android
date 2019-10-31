@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:stomp/impl/util.dart';
 
 ///定义消息回调函数,并制定参数类型
 typedef OnMessageCallback = Function(dynamic jsonMsg);
