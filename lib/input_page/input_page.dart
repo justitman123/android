@@ -5,6 +5,7 @@ import 'package:bmi_calculator/input_page/transition_dot.dart';
 import 'package:bmi_calculator/input_page/utils.dart';
 import 'package:bmi_calculator/widget_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/io.dart';
 
 class InputPage extends StatefulWidget {
@@ -29,15 +30,29 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
 //  );
   Screen size;
   AnimationController _submitAnimationController;
-  int height = 180;
-  int weight = 70;
-  static const String API_DMS_WEB_SOCKET_HOST = '192.168.99.1';
+
+  Future<String> fetchPost() async {
+    try {
+      http
+          .get(
+              'https://accounts.google.com/signin/oauth?client_id=859776580367-hnsq8rt5gqvq62b8efqimi19a4njoadn.apps.googleusercontent.com&as=vnbl6uhVs7bAUqfnFvC88w&destination=http://localhost:8080&approval_state=!ChRMLXYwckVlOWNOTk5MVzg4d0ZSQRIfOHlnV0ZoclBTTkVhOERFdWhZOThQY19GWDhobTRoWQ%E2%88%99AJDr988AAAAAXb1UtM_kaYJw1H61YPl8T-NVLo3XDXcR&oauthgdpr=1&xsrfsig=ChkAeAh8T8p03bS9QECUk0GPP27TljO7CU_gEg5hcHByb3ZhbF9zdGF0ZRILZGVzdGluYXRpb24SBXNvYWN1Eg9vYXV0aHJpc2t5c2NvcGU')
+          .then((response) {
+        print("Response status: ${response.statusCode}");
+        print("Response body: ${response.body}");
+      }).catchError((error) {
+        print("Error: $error");
+      });
+    } catch (error) {
+      print(error);
+    }
+    return "sdfsd";
+  }
 
   bool _isOpened = false;
   bool darkmode = false;
 
   @override
-  void initState() {
+  Future initState() {
     super.initState();
     channel.stream.listen((message) {
       hartbeating(message);
@@ -142,15 +157,15 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
                     ListTile(
                       leading: darkmode
                           ? Image.asset(
-                        'images/moon.png',
-                        height: 30.0,
-                        width: 26.0,
-                      )
+                              'images/moon.png',
+                              height: 30.0,
+                              width: 26.0,
+                            )
                           : Image.asset(
-                        'images/sunny.png',
-                        height: 30.0,
-                        width: 26.0,
-                      ),
+                              'images/sunny.png',
+                              height: 30.0,
+                              width: 26.0,
+                            ),
                       title: Text("DarkMode"),
                       trailing: Switch(
                         value: darkmode,
@@ -168,6 +183,7 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
                     ),
                     InkWell(
                       onTap: () {
+                        fetchPost();
 //                        Navigator.of(context)
 //                            .push(MaterialPageRoute(builder: (context) => MyAccount()));
                       },
@@ -178,6 +194,7 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
                     ),
                     InkWell(
                       onTap: () {
+                        openAlertBox();
 //                        Navigator.of(context)
 //                            .push(MaterialPageRoute(builder: (context) => MyOrders()));
                       },
@@ -219,50 +236,133 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-            appBar: AppBar(
-              titleSpacing: 2.0,
-              elevation: 0,
-              backgroundColor: colorCurve,
-              title: Text("e-Bazaar"),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
+              appBar: AppBar(
+                titleSpacing: 2.0,
+                elevation: 0,
+                backgroundColor: colorCurve,
+                title: Text("e-Bazaar"),
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
 //                    showSearch(context: context, delegate: ProductSearch());
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.shopping_cart),
-                  onPressed: () {
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.shopping_cart),
+                    onPressed: () {
 //                    Navigator.of(context)
 //                        .push(MaterialPageRoute(builder: (context) => Cart()));
-                  },
-                ),
-              ],
-            ),
+                    },
+                  ),
+                ],
+              ),
               body: Container(
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: CustomScrollView(slivers: <Widget>[
-                    SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          SearchPage(),
-                        ],
-                      ),
-                    ),
-                  ]),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                child: Column(
                   children: <Widget>[
-                    _buildBottom(context),
+                    Expanded(
+                      child: CustomScrollView(slivers: <Widget>[
+                        SliverList(
+                          delegate: SliverChildListDelegate(
+                            [
+                              SearchPage(),
+                            ],
+                          ),
+                        ),
+                      ]),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        _buildBottom(context),
+                      ],
+                    )
                   ],
-                )
+                ),
+              ),
+floatingActionButton: FloatingActionButton(
+  onPressed: () {
+    Container(
+      width: 260.0,
+      height: 230.0,
+      decoration: new BoxDecoration(
+        shape: BoxShape.rectangle,
+        color: const Color(0xFFFFFF),
+        borderRadius:
+        new BorderRadius.all(new Radius.circular(32.0)),
+      ),
+      child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          // dialog top
+          new Expanded(
+            child: new Row(
+              children: <Widget>[
+                new Container(
+                  // padding: new EdgeInsets.all(10.0),
+                  decoration: new BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  child: new Text(
+                    'Rate',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18.0,
+                      fontFamily: 'helvetica_neue_light',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ],
             ),
-          )
+          ),
+
+          // dialog centre
+          new Expanded(
+            child: new Container(
+                child: new TextField(
+                  decoration: new InputDecoration(
+                    border: InputBorder.none,
+                    filled: false,
+                    contentPadding: new EdgeInsets.only(
+                        left: 10.0,
+                        top: 10.0,
+                        bottom: 10.0,
+                        right: 10.0),
+                    hintText: ' add review',
+                    hintStyle: new TextStyle(
+                      color: Colors.grey.shade500,
+                      fontSize: 12.0,
+                      fontFamily: 'helvetica_neue_light',
+                    ),
+                  ),
+                )),
+            flex: 2,
+          ),
+
+          // dialog bottom
+          new Expanded(
+            child: new Container(
+              padding: new EdgeInsets.all(16.0),
+              decoration: new BoxDecoration(
+                color: const Color(0xFF33b17c),
+              ),
+              child: new Text(
+                'Rate product',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontFamily: 'helvetica_neue_light',
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  },
+),
 
 //            Column(
 //              crossAxisAlignment: CrossAxisAlignment.start,
@@ -308,6 +408,60 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
     );
   }
 
+  openAlertBox() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+            contentPadding: EdgeInsets.only(top: 10.0),
+            content: Container(
+              width: 300.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisSize: MainAxisSize.min,
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 30.0, right: 30.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: "Add Review",
+                        border: InputBorder.none,
+                      ),
+                      maxLines: 8,
+                    ),
+                  ),
+                  InkWell(
+                    child: Container(
+                      padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(32.0),
+                            bottomRight: Radius.circular(32.0)),
+                      ),
+                      child: Text(
+                        "Rate Product",
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });}
+
   void onPacmanSubmit() {
     _isOpened = true;
     _submitAnimationController.forward();
@@ -328,8 +482,8 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
     }
   }
 }
-class GradientAppBar extends StatelessWidget {
 
+class GradientAppBar extends StatelessWidget {
   final String title;
   final double barHeight = 50.0;
 
@@ -337,10 +491,7 @@ class GradientAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double statusbarHeight = MediaQuery
-        .of(context)
-        .padding
-        .top;
+    final double statusbarHeight = MediaQuery.of(context).padding.top;
 
     return new Container(
       padding: new EdgeInsets.only(top: statusbarHeight),
@@ -348,7 +499,8 @@ class GradientAppBar extends StatelessWidget {
       child: new Center(
         child: new Text(
           title,
-          style: new TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+          style: new TextStyle(
+              fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
       decoration: new BoxDecoration(
@@ -357,8 +509,7 @@ class GradientAppBar extends StatelessWidget {
             begin: const FractionalOffset(0.0, 0.0),
             end: const FractionalOffset(0.5, 0.0),
             stops: [0.0, 1.0],
-            tileMode: TileMode.clamp
-        ),
+            tileMode: TileMode.clamp),
       ),
     );
   }
