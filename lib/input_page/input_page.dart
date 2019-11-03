@@ -1,4 +1,5 @@
-import 'package:bmi_calculator/input_page/choose.dart';
+import 'package:bmi_calculator/input_page/chooseChatScreen/choose.dart';
+import 'package:bmi_calculator/input_page/googleSignIn.dart';
 import 'package:bmi_calculator/input_page/pacman_slider.dart';
 import 'package:bmi_calculator/input_page/responsive_screen.dart';
 import 'package:bmi_calculator/input_page/transition_dot.dart';
@@ -16,6 +17,9 @@ class InputPage extends StatefulWidget {
 }
 
 class InputPageState extends State<InputPage> with TickerProviderStateMixin {
+  Auth auth = Auth();
+  bool _isOpened = false;
+  bool darkmode = false;
   IOWebSocketChannel channel = new IOWebSocketChannel.connect(
       "ws://192.168.99.1:8085/ws/423/rmtbxzr4/websocket",
       headers: {
@@ -24,10 +28,6 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
             'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTcyMjUyMjQ4LCJleHAiOjE1NzMxMTYyNDh9.UoRRp_pWWAgCKiRUhh8DMVOhbHH8lDyaMgFanEiPBD3PpHzHyvkkIQr6wK8wA3A8rWuIVIIhd7nDmfkwMNbXrw',
       });
   int i = 0;
-
-//  final WebSocketChannel channel = IOWebSocketChannel.connect(
-//    Uri(scheme: "ws", host: "192.168.99.100", port: 8080, path: "/socket"),
-//  );
   Screen size;
   AnimationController _submitAnimationController;
 
@@ -45,11 +45,8 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
     } catch (error) {
       print(error);
     }
-    return "sdfsd";
+    return "Начать чат";
   }
-
-  bool _isOpened = false;
-  bool darkmode = false;
 
   @override
   Future initState() {
@@ -61,7 +58,7 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
       print(error);
       // error handling
     }, onDone: () {
-      print("fsdfds");
+      print("Сокет закрыт");
       // communication has been closed
     });
 //    "[\"\\n\"]"
@@ -133,253 +130,170 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
         WillPopScope(
           onWillPop: _onWillPop,
           child: Scaffold(
-              drawer: Drawer(
-                child: ListView(
-                  children: <Widget>[
-                    UserAccountsDrawerHeader(
-                      decoration: BoxDecoration(
-                        color: Color(0xFFB33771),
-                      ),
+            drawer: drawerWidget(),
+            appBar: appBar(),
+            body: body()
+          ),
+        ),
+        TransitionDot(animation: _submitAnimationController),
+      ],
+    );
+  }
+
+  Drawer drawerWidget() {
+    return Drawer(
+      child: ListView(
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            decoration: BoxDecoration(
+              color: Color(0xFFB33771),
+            ),
 //                      accountName: Text("${userName()}"),
 //                      accountEmail: Text("${email()}"),
-                      currentAccountPicture: GestureDetector(
-                        child: CircleAvatar(
-                          backgroundColor: Colors.blueAccent,
+            currentAccountPicture: GestureDetector(
+              child: CircleAvatar(
+                backgroundColor: Colors.blueAccent,
 //                          child: Text("${photoUrl()}",
 //                              style: TextStyle(
 //                                fontSize: 35.0,
 //                                color: Colors.white,
 //                                fontWeight: FontWeight.bold,
 //                              )),
-                        ),
-                      ),
-                    ),
-                    ListTile(
-                      leading: darkmode
-                          ? Image.asset(
-                              'images/moon.png',
-                              height: 30.0,
-                              width: 26.0,
-                            )
-                          : Image.asset(
-                              'images/sunny.png',
-                              height: 30.0,
-                              width: 26.0,
-                            ),
-                      title: Text("DarkMode"),
-                      trailing: Switch(
-                        value: darkmode,
-                        onChanged: (val) {
-                          setState(() {
-                            darkmode = val;
-                          });
-                          if (darkmode) {
+              ),
+            ),
+          ),
+          ListTile(
+            leading: darkmode
+                ? Image.asset(
+              'images/moon.png',
+              height: 30.0,
+              width: 26.0,
+            )
+                : Image.asset(
+              'images/sunny.png',
+              height: 30.0,
+              width: 26.0,
+            ),
+            title: Text("DarkMode"),
+            trailing: Switch(
+              value: darkmode,
+              onChanged: (val) {
+                setState(() {
+                  darkmode = val;
+                });
+                if (darkmode) {
 //                            theme.setTheme(ThemeData.dark());
 //                          } else {
 //                            theme.setTheme(ThemeData.light());
-                          }
-                        },
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        fetchPost();
-//                        Navigator.of(context)
-//                            .push(MaterialPageRoute(builder: (context) => MyAccount()));
-                      },
-                      child: _showList(
-                        "My Account",
-                        (Icons.account_box),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        openAlertBox();
-//                        Navigator.of(context)
-//                            .push(MaterialPageRoute(builder: (context) => MyOrders()));
-                      },
-                      child: _showList(
-                        "My Orders",
-                        (Icons.shopping_basket),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-//                        Navigator.of(context)
-//                            .push(MaterialPageRoute(builder: (context) => Settings()));
-                      },
-                      child: _showList(
-                        "Settings",
-                        (Icons.settings),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-//                        Navigator.of(context)
-//                            .push(MaterialPageRoute(builder: (context) => About()));
-                      },
-                      child: _showList(
-                        "About",
-                        (Icons.adjust),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-//                        Navigator.of(context)
-//                            .push(MaterialPageRoute(builder: (context) => Contact()));
-                      },
-                      child: _showList(
-                        "Contact",
-                        (Icons.contact_phone),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              appBar: AppBar(
-                titleSpacing: 2.0,
-                elevation: 0,
-                backgroundColor: colorCurve,
-                title: Text("e-Bazaar"),
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {
-//                    showSearch(context: context, delegate: ProductSearch());
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.shopping_cart),
-                    onPressed: () {
-//                    Navigator.of(context)
-//                        .push(MaterialPageRoute(builder: (context) => Cart()));
-                    },
-                  ),
-                ],
-              ),
-              body: Container(
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      child: CustomScrollView(slivers: <Widget>[
-                        SliverList(
-                          delegate: SliverChildListDelegate(
-                            [
-                              SearchPage(),
-                            ],
-                          ),
-                        ),
-                      ]),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        _buildBottom(context),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-floatingActionButton: FloatingActionButton(
-  onPressed: () {
-    Container(
-      width: 260.0,
-      height: 230.0,
-      decoration: new BoxDecoration(
-        shape: BoxShape.rectangle,
-        color: const Color(0xFFFFFF),
-        borderRadius:
-        new BorderRadius.all(new Radius.circular(32.0)),
-      ),
-      child: new Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          // dialog top
-          new Expanded(
-            child: new Row(
-              children: <Widget>[
-                new Container(
-                  // padding: new EdgeInsets.all(10.0),
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: new Text(
-                    'Rate',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18.0,
-                      fontFamily: 'helvetica_neue_light',
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
+                }
+              },
             ),
           ),
-
-          // dialog centre
-          new Expanded(
-            child: new Container(
-                child: new TextField(
-                  decoration: new InputDecoration(
-                    border: InputBorder.none,
-                    filled: false,
-                    contentPadding: new EdgeInsets.only(
-                        left: 10.0,
-                        top: 10.0,
-                        bottom: 10.0,
-                        right: 10.0),
-                    hintText: ' add review',
-                    hintStyle: new TextStyle(
-                      color: Colors.grey.shade500,
-                      fontSize: 12.0,
-                      fontFamily: 'helvetica_neue_light',
-                    ),
-                  ),
-                )),
-            flex: 2,
+          InkWell(
+            onTap: () {
+              fetchPost();
+//                        Navigator.of(context)
+//                            .push(MaterialPageRoute(builder: (context) => MyAccount()));
+            },
+            child: _showList(
+              "My Account",
+              (Icons.account_box),
+            ),
           ),
-
-          // dialog bottom
-          new Expanded(
-            child: new Container(
-              padding: new EdgeInsets.all(16.0),
-              decoration: new BoxDecoration(
-                color: const Color(0xFF33b17c),
-              ),
-              child: new Text(
-                'Rate product',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                  fontFamily: 'helvetica_neue_light',
-                ),
-                textAlign: TextAlign.center,
-              ),
+          InkWell(
+            onTap: () {
+              openAlertBox();
+//                        Navigator.of(context)
+//                            .push(MaterialPageRoute(builder: (context) => MyOrders()));
+            },
+            child: _showList(
+              "My Orders",
+              (Icons.shopping_basket),
+            ),
+          ),
+          InkWell(
+            onTap: () async {
+              await auth.googleSignIn();
+//                        Navigator.of(context)
+//                            .push(MaterialPageRoute(builder: (context) => Settings()));
+            },
+            child: _showList(
+              "Settings",
+              (Icons.settings),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+//                        Navigator.of(context)
+//                            .push(MaterialPageRoute(builder: (context) => About()));
+            },
+            child: _showList(
+              "About",
+              (Icons.adjust),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+//                        Navigator.of(context)
+//                            .push(MaterialPageRoute(builder: (context) => Contact()));
+            },
+            child: _showList(
+              "Contact",
+              (Icons.contact_phone),
             ),
           ),
         ],
       ),
     );
-  },
-),
+  }
 
-//            Column(
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//              children: <Widget>[
-//                SearchPage(),
-//                Column(
-//                  mainAxisAlignment: MainAxisAlignment.end,
-//                  children: <Widget>[
-//                    _buildBottom(context),
-//                  ],
-//                )
-//              ],
-//            ),
-              ),
+  AppBar appBar() {
+    return AppBar(
+      titleSpacing: 2.0,
+      elevation: 0,
+      backgroundColor: colorCurve,
+      title: Text("e-Bazaar"),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+//                    showSearch(context: context, delegate: ProductSearch());
+          },
         ),
-        TransitionDot(animation: _submitAnimationController),
+        IconButton(
+          icon: Icon(Icons.shopping_cart),
+          onPressed: () {
+//                    Navigator.of(context)
+//                        .push(MaterialPageRoute(builder: (context) => Cart()));
+          },
+        ),
       ],
+    );
+  }
+
+  Container body() {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: CustomScrollView(slivers: <Widget>[
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    SearchPage(),
+                  ],
+                ),
+              ),
+            ]),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              _buildBottom(context),
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -460,7 +374,8 @@ floatingActionButton: FloatingActionButton(
               ),
             ),
           );
-        });}
+        });
+  }
 
   void onPacmanSubmit() {
     _isOpened = true;
@@ -480,37 +395,5 @@ floatingActionButton: FloatingActionButton(
         i = 0;
       }
     }
-  }
-}
-
-class GradientAppBar extends StatelessWidget {
-  final String title;
-  final double barHeight = 50.0;
-
-  GradientAppBar(this.title);
-
-  @override
-  Widget build(BuildContext context) {
-    final double statusbarHeight = MediaQuery.of(context).padding.top;
-
-    return new Container(
-      padding: new EdgeInsets.only(top: statusbarHeight),
-      height: statusbarHeight + barHeight,
-      child: new Center(
-        child: new Text(
-          title,
-          style: new TextStyle(
-              fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-      ),
-      decoration: new BoxDecoration(
-        gradient: new LinearGradient(
-            colors: [Colors.red, Colors.blue],
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(0.5, 0.0),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp),
-      ),
-    );
   }
 }

@@ -4,8 +4,7 @@ import 'package:bmi_calculator/input_page/utils_widget.dart';
 import 'package:flutter/material.dart';
 import "package:scoped_model/scoped_model.dart";
 
-import "ChatModel.dart" show ChatModel, model;
-import 'input_page_styles.dart';
+import '../ChatModel.dart' show ChatModel, model;
 
 class SearchPage extends StatelessWidget {
   Screen size;
@@ -18,47 +17,43 @@ class SearchPage extends StatelessWidget {
       model: model,
       child: ScopedModelDescendant<ChatModel>(
         builder: (BuildContext context, Widget inChild, ChatModel inModel) {
-          return upperPart();
+          return Stack(
+            children: <Widget>[
+              ClipPath(
+                clipper: UpperClipper(),
+                child: Container(
+                  height: size.getWidthPx(180),
+                  decoration: BoxDecoration(
+                    color: colorCurve,
+//              gradient: LinearGradient(
+//                colors: [colorCurve, colorCurveSecondary],
+//              ),
+                  ),
+                ),
+              ),
+              Column(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(top: size.getWidthPx(6)),
+                    child: Column(
+                      children: <Widget>[
+                        letsTalkWidget(),
+                        SizedBox(height: size.getWidthPx(10)),
+                        maleFamaleCard(),
+                        chooseAgeCard()
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ],
+          );
         },
       ),
     );
   }
 
-  Widget upperPart() {
-    return Stack(
-      children: <Widget>[
-        ClipPath(
-          clipper: UpperClipper(),
-          child: Container(
-            height: size.getWidthPx(180),
-            decoration: BoxDecoration(
-              color: colorCurve,
-//              gradient: LinearGradient(
-//                colors: [colorCurve, colorCurveSecondary],
-//              ),
-            ),
-          ),
-        ),
-        Column(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(top: size.getWidthPx(6)),
-              child: Column(
-                children: <Widget>[
-                  titleWidget(),
-                  SizedBox(height: size.getWidthPx(10)),
-                  maleFamaleCard(),
-                  chooseAgeCard()
-                ],
-              ),
-            )
-          ],
-        ),
-      ],
-    );
-  }
-
-  Text titleWidget() {
+  Text letsTalkWidget() {
     return Text("Пообщаемся?",
         style: TextStyle(
             fontFamily: 'Exo2',
