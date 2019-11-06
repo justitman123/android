@@ -1,5 +1,6 @@
 import 'package:bmi_calculator/input_page/chooseChatScreen/choose.dart';
 import 'package:bmi_calculator/input_page/googleSignIn.dart';
+import 'package:bmi_calculator/input_page/loginScreen/LoginScreen3.dart';
 import 'package:bmi_calculator/input_page/pacman_slider.dart';
 import 'package:bmi_calculator/input_page/responsive_screen.dart';
 import 'package:bmi_calculator/input_page/transition_dot.dart';
@@ -191,9 +192,9 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
           ),
           InkWell(
             onTap: () {
-              fetchPost();
-//                        Navigator.of(context)
-//                            .push(MaterialPageRoute(builder: (context) => MyAccount()));
+//              fetchPost();
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) => LoginScreen3()));
             },
             child: _showList(
               "My Account",
