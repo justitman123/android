@@ -26,7 +26,7 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
       headers: {
         'Connection': 'Connect',
         'Authorization':
-            'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTcyMjUyMjQ4LCJleHAiOjE1NzMxMTYyNDh9.UoRRp_pWWAgCKiRUhh8DMVOhbHH8lDyaMgFanEiPBD3PpHzHyvkkIQr6wK8wA3A8rWuIVIIhd7nDmfkwMNbXrw',
+            'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxNTcyMjUyMjQ4IiwiaWF0IjoxNTcyOTgzNzU1LCJleHAiOjE1NzM4NDc3NTV9.4VWPzfTVYbWHgmN9UODNM7MFMwJ0K-2X23OjDhtM5WWe7lwBWwJQXz4bg4RTCg7Elrhm0o2c0_EImVTdf15cog',
       });
   int i = 0;
   Screen size;
@@ -163,33 +163,33 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
               ),
             ),
           ),
-          ListTile(
-            leading: darkmode
-                ? Image.asset(
-              'images/moon.png',
-              height: 30.0,
-              width: 26.0,
-            )
-                : Image.asset(
-              'images/sunny.png',
-              height: 30.0,
-              width: 26.0,
-            ),
-            title: Text("DarkMode"),
-            trailing: Switch(
-              value: darkmode,
-              onChanged: (val) {
-                setState(() {
-                  darkmode = val;
-                });
-                if (darkmode) {
-//                            theme.setTheme(ThemeData.dark());
-//                          } else {
-//                            theme.setTheme(ThemeData.light());
-                }
-              },
-            ),
-          ),
+//          ListTile(
+//            leading: darkmode
+//                ? Image.asset(
+//              'images/moon.png',
+//              height: 30.0,
+//              width: 26.0,
+//            )
+//                : Image.asset(
+//              'images/sunny.png',
+//              height: 30.0,
+//              width: 26.0,
+//            ),
+//            title: Text("DarkMode"),
+//            trailing: Switch(
+//              value: darkmode,
+//              onChanged: (val) {
+//                setState(() {
+//                  darkmode = val;
+//                });
+//                if (darkmode) {
+////                            theme.setTheme(ThemeData.dark());
+////                          } else {
+////                            theme.setTheme(ThemeData.light());
+//                }
+//              },
+//            ),
+//          ),
           InkWell(
             onTap: () {
 //              fetchPost();

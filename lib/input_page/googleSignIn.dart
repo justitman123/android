@@ -1,4 +1,5 @@
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:dio/dio.dart';
 
 abstract class BaseAuth {
 //  Future<FirebaseUser> googleSignIn();
@@ -7,6 +8,8 @@ abstract class BaseAuth {
 
 class Auth implements BaseAuth {
 //  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  Response response;
+  Dio dio = new Dio();
 
   @override
   Future<void> googleSignIn() async {
@@ -14,25 +17,11 @@ class Auth implements BaseAuth {
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
-    GoogleSignIn _googleSignIn = new GoogleSignIn(
-      scopes: [
-        'email',
-        'https://www.googleapis.com/auth/contacts.readonly',
-      ],
-    );
 
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) async {
-    if (account != null) {
-    // user logged
-    } else {
-    // user NOT logged
-    }
-    });
-//    final AuthCredential credential = GoogleAuthProvider.getCredential(
-//        idToken: googleSignInAuthentication.idToken,
-//        accessToken: googleSignInAuthentication.accessToken);
+
 
     try {
+      response = await dio.post("/test", data: {"displayName": googleSignInAccount.displayName, "email": googleSignInAccount.email, "photoUrl": googleSignInAccount.photoUrl});
 //      FirebaseUser user = await firebaseAuth.signInWithCredential(credential);
       return null;
     } catch (e) {
