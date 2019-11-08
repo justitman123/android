@@ -32,23 +32,6 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
   Screen size;
   AnimationController _submitAnimationController;
 
-  Future<String> fetchPost() async {
-    try {
-      http
-          .get(
-              'https://accounts.google.com/signin/oauth?client_id=859776580367-hnsq8rt5gqvq62b8efqimi19a4njoadn.apps.googleusercontent.com&as=vnbl6uhVs7bAUqfnFvC88w&destination=http://localhost:8080&approval_state=!ChRMLXYwckVlOWNOTk5MVzg4d0ZSQRIfOHlnV0ZoclBTTkVhOERFdWhZOThQY19GWDhobTRoWQ%E2%88%99AJDr988AAAAAXb1UtM_kaYJw1H61YPl8T-NVLo3XDXcR&oauthgdpr=1&xsrfsig=ChkAeAh8T8p03bS9QECUk0GPP27TljO7CU_gEg5hcHByb3ZhbF9zdGF0ZRILZGVzdGluYXRpb24SBXNvYWN1Eg9vYXV0aHJpc2t5c2NvcGU')
-          .then((response) {
-        print("Response status: ${response.statusCode}");
-        print("Response body: ${response.body}");
-      }).catchError((error) {
-        print("Error: $error");
-      });
-    } catch (error) {
-      print(error);
-    }
-    return "Начать чат";
-  }
-
   @override
   Future initState() {
     super.initState();
