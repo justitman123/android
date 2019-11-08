@@ -19,13 +19,17 @@ class Auth implements BaseAuth {
         await googleSignInAccount.authentication;
 
 
-
     try {
-      response = await dio.post("/test", data: {"displayName": googleSignInAccount.displayName, "email": googleSignInAccount.email, "photoUrl": googleSignInAccount.photoUrl});
+      response = await dio.post("http://10.128.249.89:8060/uaa/mobile/signup-login",
+          data: {
+        "displayName": googleSignInAccount.displayName,
+            "email": googleSignInAccount.email,
+            "photoUrl": googleSignInAccount.photoUrl
+      });
 //      FirebaseUser user = await firebaseAuth.signInWithCredential(credential);
       return null;
     } catch (e) {
-      print(e.toString());
+      print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy ' + e.toString());
       return null;
     }
   }
