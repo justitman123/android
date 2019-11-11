@@ -12,15 +12,59 @@ class LoginScreen3 extends StatefulWidget {
 
 class _LoginScreen3State extends State<LoginScreen3>
     with TickerProviderStateMixin {
+// Google sign in
+  Auth auth = Auth();
+// Google sign in
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  Auth auth = Auth();
+  TextEditingController _confirmPasswordController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+  Animation animation, delayAnimation, muchDelayedAnimation;
+  AnimationController animationController;
+  bool hidePass = true;
+  bool isLoading = false;
+  bool isLoggedIn = false;
 
   @override
   void initState() {
     super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 2000),
+    );
+    animation = Tween(begin: -1.0, end: 0.0).animate(
+      CurvedAnimation(curve: Curves.fastOutSlowIn, parent: animationController),
+    );
+    delayAnimation = Tween(begin: -1.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Interval(0.5, 1.0, curve: Curves.fastOutSlowIn),
+      ),
+    );
+    muchDelayedAnimation = Tween(begin: -1.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Interval(0.7, 1.0, curve: Curves.fastOutSlowIn),
+      ),
+    );
+
+    isSignedIn();
+  }
+
+  void isSignedIn() async {
+    setState(() {
+      isLoading = true;
+    });
+//    preferences = await SharedPreferences.getInstance();
+    if (isLoggedIn) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   Widget HomePage() {

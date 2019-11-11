@@ -12,23 +12,25 @@ class Auth implements BaseAuth {
   Dio dio = new Dio();
 
   @override
-  Future<void> googleSignIn() async {
+  Future<bool> googleSignIn() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
-
+//    final GoogleSignInAuthentication googleSignInAuthentication =
+//        await googleSignInAccount.authentication;
 
     try {
-      response = await dio.post("http://10.128.249.89:8060/uaa/mobile/signup-login",
+//    /uaa/auth/signup
+      response = await new Dio().post("http://192.168.99.1:8060/uaa/auth/mobile",
           data: {
         "displayName": googleSignInAccount.displayName,
             "email": googleSignInAccount.email,
             "photoUrl": googleSignInAccount.photoUrl
       });
 //      FirebaseUser user = await firebaseAuth.signInWithCredential(credential);
-      return null;
+      await googleSignIn.signOut();
+      return true;
     } catch (e) {
+      await googleSignIn.signOut();
       print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy ' + e.toString());
       return null;
     }
