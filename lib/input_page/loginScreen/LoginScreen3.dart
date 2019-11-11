@@ -1,5 +1,5 @@
 import 'package:bmi_calculator/input_page/colors.dart';
-import 'package:bmi_calculator/input_page/loginScreen/googleSignIn/googleSignIn.dart';
+import 'package:bmi_calculator/input_page/loginScreen/auth/googleSignIn.dart';
 import 'package:bmi_calculator/input_page/responsive_screen.dart';
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
 import 'package:bmi_calculator/widget_utils.dart';

@@ -1,6 +1,7 @@
 import 'package:bmi_calculator/input_page/chooseChatScreen/choose.dart';
-import 'package:bmi_calculator/input_page/loginScreen/googleSignIn/googleSignIn.dart';
+import 'package:bmi_calculator/input_page/loginScreen/auth/googleSignIn.dart';
 import 'package:bmi_calculator/input_page/loginScreen/LoginScreen3.dart';
+import 'package:bmi_calculator/input_page/loginScreen/localstorage/LocalStorage.dart';
 import 'package:bmi_calculator/input_page/pacman_slider.dart';
 import 'package:bmi_calculator/input_page/responsive_screen.dart';
 import 'package:bmi_calculator/input_page/transition_dot.dart';
@@ -35,6 +36,7 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
   @override
   Future initState() {
     super.initState();
+    LocalStorage.instance.storage.read(key: 'accessToken');
     channel.stream.listen((message) {
       hartbeating(message);
       // handling of the incoming messages
@@ -128,21 +130,24 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
     return Drawer(
       child: ListView(
         children: <Widget>[
-          UserAccountsDrawerHeader(
-            decoration: BoxDecoration(
-              color: Color(0xFFB33771),
-            ),
+          Visibility(
+            visible: LocalStorage.instance.storage.read(key: 'accessToken') == null,
+            child: UserAccountsDrawerHeader(
+              decoration: BoxDecoration(
+                color: Color(0xFFB33771),
+              ),
 //                      accountName: Text("${userName()}"),
 //                      accountEmail: Text("${email()}"),
-            currentAccountPicture: GestureDetector(
-              child: CircleAvatar(
-                backgroundColor: Colors.blueAccent,
-//                          child: Text("${photoUrl()}",
-//                              style: TextStyle(
-//                                fontSize: 35.0,
-//                                color: Colors.white,
-//                                fontWeight: FontWeight.bold,
-//                              )),
+              currentAccountPicture: GestureDetector(
+                child: CircleAvatar(
+                  backgroundColor: Colors.blueAccent,
+                          child: Text("${photoUrl()}",
+                              style: TextStyle(
+                                fontSize: 35.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              )),
+                ),
               ),
             ),
           ),
