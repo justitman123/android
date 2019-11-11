@@ -1,5 +1,5 @@
 import 'package:bmi_calculator/input_page/chooseChatScreen/choose.dart';
-import 'package:bmi_calculator/input_page/googleSignIn.dart';
+import 'package:bmi_calculator/input_page/loginScreen/googleSignIn/googleSignIn.dart';
 import 'package:bmi_calculator/input_page/loginScreen/LoginScreen3.dart';
 import 'package:bmi_calculator/input_page/pacman_slider.dart';
 import 'package:bmi_calculator/input_page/responsive_screen.dart';
