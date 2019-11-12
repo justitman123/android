@@ -19,7 +19,7 @@ class Auth implements BaseAuth {
 
     try {
       response = await new Dio()
-          .post("http://192.168.99.1:8060/uaa/auth/mobile", data: {
+          .post("http://192.168.42.4:8060/uaa/auth/mobile", data: {
         "displayName": googleSignInAccount.displayName,
         "email": googleSignInAccount.email,
         "photoUrl": googleSignInAccount.photoUrl

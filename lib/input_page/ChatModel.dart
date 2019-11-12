@@ -141,6 +141,29 @@ class ChatModel extends Model {
 
 
 
+  String name;
+
+  String avatar;
+
+  bool isLoggedIn;
+
+  void setName (String displayName) {
+    name = displayName;
+    notifyListeners();
+  }
+
+  void setPhotoUrl(String photoUrl) {
+    avatar = photoUrl;
+    notifyListeners();
+  }
+
+  void setLoggedIn(final bool loggedIn) {
+    isLoggedIn = loggedIn;
+    notifyListeners();
+  }
+
+
+
 
 
 
