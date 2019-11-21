@@ -1,6 +1,4 @@
-import 'package:bmi_calculator/input_page/colors.dart';
 import 'package:bmi_calculator/input_page/loginScreen/auth/googleSignIn.dart';
-import 'package:bmi_calculator/input_page/responsive_screen.dart';
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
 import 'package:bmi_calculator/widget_utils.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +12,7 @@ class _LoginScreen3State extends State<LoginScreen3>
     with TickerProviderStateMixin {
 // Google sign in
   Auth auth = Auth();
+
 // Google sign in
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -76,7 +75,6 @@ class _LoginScreen3State extends State<LoginScreen3>
         image: DecorationImage(
           colorFilter: new ColorFilter.mode(
               Colors.black.withOpacity(0.1), BlendMode.dstATop),
-          image: AssetImage('assets/images/mountains.jpg'),
           fit: BoxFit.cover,
         ),
       ),
@@ -393,7 +391,8 @@ class _LoginScreen3State extends State<LoginScreen3>
                   new Expanded(
                     child: new Container(
                       margin: EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(border: Border.all(width: 0.25)),
+                      decoration:
+                          BoxDecoration(border: Border.all(width: 0.25)),
                     ),
                   ),
                   Text(
@@ -407,7 +406,8 @@ class _LoginScreen3State extends State<LoginScreen3>
                   new Expanded(
                     child: new Container(
                       margin: EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(border: Border.all(width: 0.25)),
+                      decoration:
+                          BoxDecoration(border: Border.all(width: 0.25)),
                     ),
                   ),
                 ],
@@ -450,8 +450,8 @@ class _LoginScreen3State extends State<LoginScreen3>
                                               const IconData(0xea90,
                                                   fontFamily: 'icomoon'),
                                               color: Colors.white,
-                                              size:
-                                                  screenAwareSize(15.0, context),
+                                              size: screenAwareSize(
+                                                  15.0, context),
                                             ),
                                             Text(
                                               "FACEBOOK",
@@ -507,8 +507,8 @@ class _LoginScreen3State extends State<LoginScreen3>
                                               const IconData(0xea88,
                                                   fontFamily: 'icomoon'),
                                               color: Colors.white,
-                                              size:
-                                                  screenAwareSize(15.0, context),
+                                              size: screenAwareSize(
+                                                  15.0, context),
                                             ),
                                             Text(
                                               "GOOGLE",

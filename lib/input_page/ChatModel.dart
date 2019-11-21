@@ -1,5 +1,6 @@
 import "dart:io";
 
+import 'package:cached_network_image/cached_network_image.dart';
 import "package:flutter/material.dart";
 import 'package:scoped_model/scoped_model.dart';
 
@@ -143,22 +144,36 @@ class ChatModel extends Model {
 
   String name;
 
-  String avatar;
+  String avatarUrl;
 
   bool isLoggedIn;
 
-  void setName (String displayName) {
-    name = displayName;
+  String accessToken;
+
+  CachedNetworkImageProvider avatar;
+
+  void setName (String name) {
+    this.name = name;
     notifyListeners();
   }
 
-  void setPhotoUrl(String photoUrl) {
-    avatar = photoUrl;
+  void setPhotoUrl(String avatarUrl) {
+    this.avatarUrl = avatarUrl;
     notifyListeners();
   }
 
-  void setLoggedIn(final bool loggedIn) {
-    isLoggedIn = loggedIn;
+  void setLoggedIn(final bool isLoggedIn) {
+    this.isLoggedIn = isLoggedIn;
+    notifyListeners();
+  }
+
+  void setAccessToken(final String accessToken) {
+    this.accessToken = accessToken;
+    notifyListeners();
+  }
+
+  void setAvatar(final CachedNetworkImageProvider avatar) {
+    this.avatar = avatar;
     notifyListeners();
   }
 

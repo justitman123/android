@@ -1,28 +1,27 @@
 import 'package:bmi_calculator/input_page/chooseChatScreen/choose.dart';
 import 'package:bmi_calculator/input_page/loginScreen/LoginScreen3.dart';
-import 'package:bmi_calculator/input_page/loginScreen/auth/googleSignIn.dart';
 import 'package:bmi_calculator/input_page/loginScreen/localstorage/LocalStorage.dart';
 import 'package:bmi_calculator/input_page/pacman_slider.dart';
 import 'package:bmi_calculator/input_page/responsive_screen.dart';
 import 'package:bmi_calculator/input_page/transition_dot.dart';
 import 'package:bmi_calculator/input_page/utils.dart';
+import 'package:bmi_calculator/screens/homescreen/drawer/CustomDrawer.dart';
 import 'package:bmi_calculator/widget_utils.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/io.dart';
 
-class InputPage extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
-  InputPageState createState() {
-    return new InputPageState();
+  HomeScreenState createState() {
+    return new HomeScreenState();
   }
 }
 
-class InputPageState extends State<InputPage> with TickerProviderStateMixin {
+class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool _isOpened = false;
   bool darkmode = false;
   IOWebSocketChannel channel = new IOWebSocketChannel.connect(
-      "ws://192.168.99.1:8085/ws/423/rmtbxzr4/websocket",
+      "ws://192.168.42.4:8085/ws/423/rmtbxzr4/websocket",
       headers: {
         'Connection': 'Connect',
         'Authorization':
@@ -31,21 +30,10 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
   int i = 0;
   Screen size;
   AnimationController _submitAnimationController;
-  String photoUrl = 'https://randomuser.me/api/portraits/women/21.jpg';
-
-  Future<Null> _readAll() async {
-    String cachedPhotoUrl = await LocalStorage.instance.storage.read(key: 'photoUrl');
-    String name = await LocalStorage.instance.storage.read(key: 'displayName');
-    setState(() {
-      photoUrl = cachedPhotoUrl;
-      name = name == null ? 'nobody' : cachedPhotoUrl;
-    });
-  }
 
   @override
   Future initState() {
     super.initState();
-    _readAll();
     channel.stream.listen((message) {
       hartbeating(message);
       // handling of the incoming messages
@@ -119,129 +107,15 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     size = Screen(MediaQuery.of(context).size);
-    double height = screenAwareSize(180, context);
     return Stack(
       children: <Widget>[
         WillPopScope(
           onWillPop: _onWillPop,
-          child: Scaffold(
-              drawer: buildDrawer(context), appBar: appBar(), body: body()),
-
-//              drawer: buildDrawer(context), appBar: appBar(), body: body()),
+          child:
+              Scaffold(drawer: CustomDrawer(), appBar: appBar(), body: body()),
         ),
         TransitionDot(animation: _submitAnimationController),
       ],
-    );
-  }
-
-  Widget buildDrawer(BuildContext context) {
-    var drawerTiles = [
-      {
-        'title': 'Home',
-        'leading': Icons.home,
-        'function': LoginScreen3(),
-      },
-      {
-        'title': 'Your Profile',
-        'leading': Icons.person_pin,
-        'function': LoginScreen3(),
-      },
-      {
-        'title': 'Settings',
-        'leading': Icons.settings,
-        'function': LoginScreen3(),
-      },
-      {
-        'title': 'Contact Us',
-        'leading': Icons.contact_mail,
-        'function': LoginScreen3(),
-      },
-      {
-        'title': 'Help',
-        'leading': Icons.info_outline,
-        'function': LoginScreen3(),
-      },
-    ];
-    final Color primary = colorCurve;
-    var width = MediaQuery.of(context).size.width;
-    return ClipPath(
-      clipper: OvalRightBorderClipper(),
-      child: Container(
-        color: primary,
-        width: width,
-        padding: EdgeInsets.only(right: width / 3),
-        child: Column(
-          children: <Widget>[
-            Visibility(
-              visible: LocalStorage.instance.storage.read(key: 'accessToken') !=
-                  null,
-              child: Expanded(
-                flex: 2,
-                child: Container(
-                  margin: EdgeInsets.only(top: 50),
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: CircleAvatar(
-                    backgroundImage: CachedNetworkImageProvider(photoUrl),
-                    radius: width / 4 - 18,
-                  ),
-                ),
-              ),
-            ),
-            Visibility(
-              visible: LocalStorage.instance.storage.read(key: 'accessToken') !=
-                  null,
-              child: Container(
-                child: Text(
-                  "Jennifer Aniston",
-                  style: TextStyle(color: Colors.white),
-                ),
-                margin: EdgeInsets.only(top: 10),
-              ),
-            ),
-            Visibility(
-              visible: LocalStorage.instance.storage.read(key: 'accessToken') !=
-                  null,
-              child: Container(
-                child: Text(
-                  "@JennyAn28",
-                  style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.5)),
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 4,
-              child: ListView.builder(
-                itemCount: drawerTiles.length * 2,
-                itemBuilder: (context, i) {
-                  if (i.isOdd)
-                    return Divider(
-                      color: Color.fromRGBO(255, 255, 255, 0.5),
-                      indent: 20,
-                    );
-                  return InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => drawerTiles[i ~/ 2]['function']));
-                      },
-                      child: ListTile(
-                        title: Text(
-                          drawerTiles[i ~/ 2]['title'],
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        leading: Icon(
-                          drawerTiles[i ~/ 2]['leading'],
-                          color: Color.fromRGBO(255, 255, 255, 0.5),
-                        ),
-                      ));
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -343,8 +217,7 @@ class InputPageState extends State<InputPage> with TickerProviderStateMixin {
             ),
           ),
           InkWell(
-            onTap: () async {
-            },
+            onTap: () async {},
             child: _showList(
               "Settings",
               (Icons.settings),

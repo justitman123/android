@@ -1,4 +1,4 @@
-import 'package:bmi_calculator/input_page/page_splash.dart';
+import 'package:bmi_calculator/screens/splashscreen/SplashScreen.dart';
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
 }
 
 class CollectionApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -30,12 +29,6 @@ class CollectionApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: Theme.of(context).primaryColor,
         ),
-        home: SplashScreen()
-    );
+        home: SplashScreen());
   }
 }
-
-
-
-
-
