@@ -144,7 +144,7 @@ class ChatModel extends Model {
 
   String name;
 
-  String avatarUrl;
+  String photoUrl;
 
   bool isLoggedIn;
 
@@ -155,8 +155,8 @@ class ChatModel extends Model {
     notifyListeners();
   }
 
-  void setPhotoUrl(String avatarUrl) {
-    this.avatarUrl = avatarUrl;
+  void setPhotoUrl(String photoUrl) {
+    this.photoUrl = photoUrl;
     notifyListeners();
   }
 

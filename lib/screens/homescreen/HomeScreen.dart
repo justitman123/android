@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:bmi_calculator/input_page/chooseChatScreen/choose.dart';
-import 'package:bmi_calculator/input_page/loginScreen/LoginScreen3.dart';
+import 'package:bmi_calculator/screens/registerscreen/MiddleLoginRegisterPage.dart';
 import 'package:bmi_calculator/input_page/loginScreen/localstorage/LocalStorage.dart';
 import 'package:bmi_calculator/input_page/pacman_slider.dart';
 import 'package:bmi_calculator/input_page/responsive_screen.dart';
@@ -203,7 +203,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             onTap: () {
 //              fetchPost();
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => LoginScreen3()));
+                  MaterialPageRoute(builder: (context) => MiddleLoginRegisterPage()));
             },
             child: _showList(
               "My Account",

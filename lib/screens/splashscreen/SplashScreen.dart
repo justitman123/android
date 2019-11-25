@@ -1,14 +1,12 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:bmi_calculator/input_page/ChatModel.dart' show ChatModel, model;
+import 'package:bmi_calculator/input_page/ChatModel.dart' as prefix0;
 import 'package:bmi_calculator/input_page/loginScreen/localstorage/LocalStorage.dart';
 import 'package:bmi_calculator/screens/homescreen/HomeScreen.dart';
 import 'package:bmi_calculator/util/cache_manager.dart' show FileProvider, fileProvider;
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -44,8 +42,6 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   Future navigateFromSplash() async {
-    var response = await Dio().get(model.avatarUrl, options: Options(responseType: ResponseType.bytes));
-    fileProvider.saveInputFile('sdfds.jpg', response.data);
 //    print(result);
 //    String isOnBoard = await LocalStorage.sharedInstance.readValue(Constants.isOnBoard);
 //      print("isOnBoard  $isOnBoard");
@@ -59,10 +55,18 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   Future initializeProfileData() async {
-    String cachedPhotoUrl =
-        await LocalStorage.instance.storage.read(key: 'photoUrl');
-    String name = await LocalStorage.instance.storage.read(key: 'displayName');
-    model.setPhotoUrl(cachedPhotoUrl);
-    model.setName(name);
+    String accessToken = await LocalStorage.instance.storage.read(key: 'accessToken');
+    if (model.accessToken != null) {
+      String photoUrl = await LocalStorage.instance.storage.read(key: 'photoUrl');
+      String name = await LocalStorage.instance.storage.read(key: 'displayName');
+      model.setPhotoUrl(photoUrl);
+      model.setName(name);
+      model.setAccessToken(accessToken);
+      model.setLoggedIn(true);
+      var response = await Dio().get(photoUrl, options: Options(responseType: ResponseType.bytes));
+      fileProvider.saveInputFile('avatar.jpg', response.data);
+    } else {
+      model.setLoggedIn(false);
+    }
   }
 }
