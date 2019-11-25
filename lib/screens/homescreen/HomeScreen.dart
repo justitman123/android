@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bmi_calculator/input_page/chooseChatScreen/choose.dart';
 import 'package:bmi_calculator/input_page/loginScreen/LoginScreen3.dart';
 import 'package:bmi_calculator/input_page/loginScreen/localstorage/LocalStorage.dart';
@@ -8,6 +10,9 @@ import 'package:bmi_calculator/input_page/utils.dart';
 import 'package:bmi_calculator/screens/homescreen/drawer/CustomDrawer.dart';
 import 'package:bmi_calculator/widget_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:path_provider/path_provider.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:web_socket_channel/io.dart';
 
 class HomeScreen extends StatefulWidget {

@@ -7,6 +7,7 @@ import 'package:bmi_calculator/input_page/utils.dart';
 import 'package:bmi_calculator/screens/homescreen/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:bmi_calculator/util/cache_manager.dart' show FileProvider, fileProvider;
 
 class CustomDrawer extends StatelessWidget {
   final drawerTiles = [
@@ -37,9 +38,12 @@ class CustomDrawer extends StatelessWidget {
     },
   ];
   final Color primary = colorCurve;
+  ImageProvider adssa;
+
 
   @override
   Widget build(BuildContext context) {
+    fileProvider.openInputFile('sdfds.jpg').then((result){adssa = result;});
     return ScopedModel<ChatModel>(
         model: model,
         child: ScopedModelDescendant<ChatModel>(builder:
@@ -57,8 +61,8 @@ class CustomDrawer extends StatelessWidget {
                     visible: LocalStorage.instance.storage
                             .read(key: 'accessToken') !=
                         null,
-                    child: Expanded(
-                      flex: 2,
+//                    child: Expanded(
+//                      flex: 2,
                       child: Container(
                         margin: EdgeInsets.only(
                             top: SizeConfig.safeBlockVertical * 5),
@@ -68,11 +72,11 @@ class CustomDrawer extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: CircleAvatar(
-                          backgroundImage: model.avatar,
-                          radius: SizeConfig.safeBlockHorizontal * 20,
+                          backgroundImage: adssa,
+                          radius: SizeConfig.safeBlockHorizontal * 12,
                         ),
                       ),
-                    ),
+//                    ),
                   ),
                   Visibility(
                     visible: LocalStorage.instance.storage
@@ -83,8 +87,8 @@ class CustomDrawer extends StatelessWidget {
                         model.name,
                         style: TextStyle(color: Colors.white),
                       ),
-                      margin: EdgeInsets.only(
-                          top: SizeConfig.safeBlockVertical * 1),
+//                      margin: EdgeInsets.only(
+//                          top: SizeConfig.safeBlockVertical * 1),
                     ),
                   ),
                   Visibility(

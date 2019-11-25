@@ -150,8 +150,6 @@ class ChatModel extends Model {
 
   String accessToken;
 
-  CachedNetworkImageProvider avatar;
-
   void setName (String name) {
     this.name = name;
     notifyListeners();
@@ -171,12 +169,6 @@ class ChatModel extends Model {
     this.accessToken = accessToken;
     notifyListeners();
   }
-
-  void setAvatar(final CachedNetworkImageProvider avatar) {
-    this.avatar = avatar;
-    notifyListeners();
-  }
-
 
 
 
