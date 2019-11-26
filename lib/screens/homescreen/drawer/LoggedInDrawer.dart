@@ -16,22 +16,22 @@ class LoggedInDrawer extends StatelessWidget {
       'function': MiddleLoginRegisterPage(),
     },
     {
-      'title': 'Your Profile',
+      'title': 'Аккаунт',
       'leading': Icons.person_pin,
       'function': MiddleLoginRegisterPage(),
     },
     {
-      'title': 'Settings',
+      'title': 'Настройки',
       'leading': Icons.settings,
       'function': MiddleLoginRegisterPage(),
     },
     {
-      'title': 'Contact Us',
+      'title': 'Связь с командой разработчиков',
       'leading': Icons.contact_mail,
       'function': MiddleLoginRegisterPage(),
     },
     {
-      'title': 'Help',
+      'title': 'Благотворительная помощь проекту',
       'leading': Icons.info_outline,
       'function': MiddleLoginRegisterPage(),
     },

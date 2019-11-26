@@ -1,267 +1,223 @@
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
 import 'package:flutter/material.dart';
 
-class RightRegisterPage extends StatelessWidget {
+class RightRegisterPage extends StatefulWidget {
+  @override
+  _RightRegisterPageState createState() => _RightRegisterPageState();
+}
+
+class _RightRegisterPageState extends State<RightRegisterPage>
+    with SingleTickerProviderStateMixin {
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+//    isSignedIn();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Container(
       height: SizeConfig.safeBlockVertical * 10,
       decoration: BoxDecoration(
         color: Colors.white,
-        image: DecorationImage(
-          colorFilter: new ColorFilter.mode(
-              Colors.black.withOpacity(0.05), BlendMode.dstATop),
-          image: AssetImage('assets/images/mountains.jpg'),
-          fit: BoxFit.cover,
-        ),
       ),
-      child: new Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(SizeConfig.safeBlockHorizontal * 10),
-            child: Center(
-              child: Icon(
-                Icons.headset_mic,
+      child: Form(
+        key: _formKey,
+        autovalidate: true,
+        child: new Column(
+          children: <Widget>[
+
+
+            Container(
+              padding: EdgeInsets.all(SizeConfig.safeBlockHorizontal * 10),
+              child: Center(
+                child: Icon(
+                  Icons.headset_mic,
+                  color: Colors.redAccent,
+                  size: SizeConfig.safeBlockVertical * 7,
+                ),
+              ),
+            ),
+            Container(
+              width: SizeConfig.safeBlockHorizontal * 90,
+              margin: const EdgeInsets.only( top: 10.0),
+              alignment: Alignment.center,
+              padding: const EdgeInsets.only(left: 0.0, right: 10.0),
+              child: new Card(
+                child: TextFormField(
+//              controller: _nameController,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.account_box,
+                        color: Colors.redAccent),
+                    hintText: "Username",
+                    labelText: "Username",
+                  ),
+                  // ignore: missing_return
+                  validator: (val) {
+                    if (val.isEmpty) {
+                      return "Please Provide Username";
+                    }
+                    // return "";
+                  },
+                  onSaved: (val) {
+//                _emailController.text = val;
+                  },
+                  autocorrect: true,
+
+                ),
+              ),
+            ),
+            Container(
+              width: SizeConfig.safeBlockHorizontal * 90,
+              margin: const EdgeInsets.only(top: 10.0),
+              alignment: Alignment.center,
+              padding: const EdgeInsets.only(left: 0.0, right: 10.0),
+              child: new Card(
+                child: TextFormField(
+//                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.alternate_email,
+                          color: Colors.redAccent),
+                      hintText: "Email",
+                      labelStyle: TextStyle(
+                        // color: Colors.white,
+                      ),
+                      labelText: "Email"),
+                  // ignore: missing_return
+                  validator: (val) {
+                    if (val.isEmpty) {
+                      return "Please Provide Email";
+                    }
+                    // return "";
+                  },
+                  onSaved: (val) {
+//                    _emailController.text = val;
+                  },
+                  autocorrect: true,
+                ),
+              ),
+            ),
+            Container(
+              width: SizeConfig.safeBlockHorizontal * 90,
+              margin: const EdgeInsets.only(top: 10.0),
+              alignment: Alignment.center,
+              padding: const EdgeInsets.only(left: 0.0, right: 10.0),
+              child: new Card(
+                child: TextFormField(
+//                  controller: _passwordController,
+//                  obscureText: hidePass,
+                  decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.remove_red_eye,
+                          color: Colors.redAccent,
+                        ),
+                        onPressed: () {
+                          setState(() {
+//                            hidePass = false;
+                          });
+                        },
+                      ),
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        color: Colors.blueGrey,
+                      ),
+                      hintText: "Password",
+                      labelText: "Password"),
+                  // ignore: missing_return
+                  validator: (val) {
+                    if (val.length < 6) {
+                      return "Passsword must contain atleast 6 characters";
+                    }
+                    // return "";
+                  },
+                  onSaved: (val) {
+//                    _passwordController.text = val;
+                  },
+                  autocorrect: true,
+                ),
+              ),
+            ),
+            Container(
+              width: SizeConfig.safeBlockHorizontal * 90,
+              margin: const EdgeInsets.only(top: 10.0),
+              alignment: Alignment.center,
+              padding: const EdgeInsets.only(left: 0.0, right: 10.0),
+              child: Card(
+                child: TextFormField(
+//                  controller: _confirmPasswordController,
+//                  obscureText: hidePass,
+                  decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.remove_red_eye,
+                          color: Colors.blueGrey,
+                        ),
+                        onPressed: () {
+                          setState(() {
+//                            hidePass = false;
+                          });
+                        },
+                      ),
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        color: Colors.blueGrey,
+                      ),
+                      hintText: "Confirm Password",
+                      labelText: "Confirm Password"),
+                  // ignore: missing_return
+                  validator: (val) {
+                    if (val.length < 6) {
+                      return "Passsword must contain atleast 6 characters";
+                    } else if (val.isEmpty) {
+                      return "Password field can't be empty";
+                    }
+//                    else if (_passwordController.text != val) {
+//                      return "Password and Confirm Password didn't match";
+//                    }
+                    // return "";
+                  },
+                  onSaved: (val) {
+//                    _passwordController.text = val;
+                  },
+                  autocorrect: true,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                  left: SizeConfig.safeBlockVertical * 5,
+                  right: SizeConfig.safeBlockVertical * 5,
+                  top: SizeConfig.safeBlockVertical * 8),
+              child: MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(
+                      SizeConfig.safeBlockVertical * 10),
+                ),
                 color: Colors.redAccent,
-                size: SizeConfig.safeBlockVertical * 7,
-              ),
-            ),
-          ),
-          new Row(
-            children: <Widget>[
-              new Expanded(
-                child: new Padding(
-                  padding: const EdgeInsets.only(left: 40.0),
-                  child: new Text(
-                    "LOGIN",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.redAccent,
-                        fontSize: SizeConfig.safeBlockHorizontal * 3,
-                        decoration: TextDecoration.none),
+                onPressed: () async {
+//                signUpUser();
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20.0,
+                    horizontal: 20.0,
                   ),
-                ),
-              ),
-            ],
-          ),
-          new Container(
-            width: SizeConfig.safeBlockHorizontal * 90,
-            margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 10.0),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    color: Colors.redAccent,
-                    width: SizeConfig.safeBlockVertical * 0.1,
-                    style: BorderStyle.solid),
-              ),
-            ),
-            padding: const EdgeInsets.only(left: 0.0, right: 10.0),
-            child: new Card(
-              child: TextField(
-                obscureText: true,
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintStyle: TextStyle(color: Colors.grey),
-                ),
-              ),
-            ),
-          ),
-          Divider(
-            height: SizeConfig.safeBlockVertical * 1,
-          ),
-          new Row(
-            children: <Widget>[
-              new Expanded(
-                child: new Padding(
-                  padding: const EdgeInsets.only(left: 40.0),
-                  child: new Text(
-                    "EMAIL",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.redAccent,
-                        fontSize: SizeConfig.safeBlockHorizontal * 3,
-                        decoration: TextDecoration.none),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          new Container(
-            width: SizeConfig.safeBlockHorizontal * 100,
-            margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 10.0),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    color: Colors.redAccent,
-                    width: SizeConfig.safeBlockVertical * 0.1,
-                    style: BorderStyle.solid),
-              ),
-            ),
-            padding: const EdgeInsets.only(left: 0.0, right: 10.0),
-            child: new Card(
-              child: TextField(
-                obscureText: true,
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'samarthagarwal@live.com',
-                  hintStyle: TextStyle(color: Colors.grey),
-                ),
-              ),
-            ),
-          ),
-          Divider(
-            height: SizeConfig.safeBlockVertical * 1,
-          ),
-          new Row(
-            children: <Widget>[
-              new Expanded(
-                child: new Padding(
-                  padding: const EdgeInsets.only(left: 40.0),
-                  child: new Text(
-                    "PASSWORD",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.redAccent,
-                        fontSize: SizeConfig.safeBlockHorizontal * 3,
-                        decoration: TextDecoration.none),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          new Container(
-            margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 10.0),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    color: Colors.redAccent,
-                    width: SizeConfig.safeBlockVertical * 0.1,
-                    style: BorderStyle.solid),
-              ),
-            ),
-            padding: const EdgeInsets.only(left: 0.0, right: 10.0),
-            child: new Card(
-              child: TextField(
-                obscureText: true,
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: '*********',
-                  hintStyle: TextStyle(color: Colors.grey),
-                ),
-              ),
-            ),
-          ),
-          Divider(
-            height: SizeConfig.safeBlockVertical * 1,
-          ),
-          new Row(
-            children: <Widget>[
-              new Expanded(
-                child: new Padding(
-                  padding: const EdgeInsets.only(left: 40.0),
-                  child: new Text(
-                    "CONFIRM PASSWORD",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.redAccent,
-                        fontSize: SizeConfig.safeBlockHorizontal * 3,
-                        decoration: TextDecoration.none),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          new Container(
-            margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 10.0),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    color: Colors.redAccent, style: BorderStyle.solid),
-              ),
-            ),
-            padding: const EdgeInsets.only(left: 0.0, right: 10.0),
-            child: Card(
-              child: TextField(
-                obscureText: true,
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: '*********',
-                  hintStyle: TextStyle(color: Colors.grey),
-                ),
-              ),
-            ),
-          ),
-          Divider(
-            height: SizeConfig.safeBlockVertical * 1,
-          ),
-          new Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: new FlatButton(
-                  child: new Text(
-                    "Already have an account?",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.redAccent,
-                      fontSize: SizeConfig.safeBlockHorizontal * 3,
-                    ),
-                    textAlign: TextAlign.end,
-                  ),
-                  onPressed: () => {},
-                ),
-              ),
-            ],
-          ),
-          new Container(
-            width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 50.0),
-            alignment: Alignment.center,
-            child: new Row(
-              children: <Widget>[
-                new Expanded(
-                  child: new FlatButton(
-                    shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(
-                          SizeConfig.safeBlockVertical * 10),
-                    ),
-                    color: Colors.redAccent,
-                    onPressed: () => {},
-                    child: new Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 20.0,
-                        horizontal: 20.0,
-                      ),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          new Expanded(
-                            child: Text(
-                              "SIGN UP",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
+                  child: Center(
+                    child: Text(
+                      "SIGN UP",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

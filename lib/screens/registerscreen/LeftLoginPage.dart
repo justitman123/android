@@ -14,12 +14,6 @@ class LeftLoginPage extends StatelessWidget {
       height: SizeConfig.safeBlockVertical * 10,
       decoration: BoxDecoration(
         color: Colors.white,
-        image: DecorationImage(
-          colorFilter: new ColorFilter.mode(
-              Colors.black.withOpacity(0.05), BlendMode.dstATop),
-          image: AssetImage('assets/images/mountains.jpg'),
-          fit: BoxFit.cover,
-        ),
       ),
       child: Form(
         key: _formKey,

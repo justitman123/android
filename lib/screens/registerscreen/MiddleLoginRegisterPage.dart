@@ -1,7 +1,7 @@
 import 'package:bmi_calculator/input_page/loginScreen/auth/googleSignIn.dart';
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
+import 'package:bmi_calculator/screens/registerscreen/LeftLoginPage.dart';
 import 'package:bmi_calculator/screens/registerscreen/RightRegisterPage.dart';
-import 'package:bmi_calculator/screens/registerscreen/pages/LeftLoginPage.dart';
 import 'package:bmi_calculator/widget_utils.dart';
 import 'package:flutter/material.dart';
 

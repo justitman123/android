@@ -11,27 +11,17 @@ import 'package:scoped_model/scoped_model.dart';
 class AnonimousDrawer extends StatelessWidget {
   final drawerTiles = [
     {
-      'title': 'Home',
-      'leading': Icons.home,
-      'function': MiddleLoginRegisterPage(),
-    },
-    {
-      'title': 'Your Profile',
+      'title': 'Вход и регистрация',
       'leading': Icons.person_pin,
       'function': MiddleLoginRegisterPage(),
     },
     {
-      'title': 'Settings',
-      'leading': Icons.settings,
-      'function': MiddleLoginRegisterPage(),
-    },
-    {
-      'title': 'Contact Us',
+      'title': 'Связь с командой разработчиков',
       'leading': Icons.contact_mail,
       'function': MiddleLoginRegisterPage(),
     },
     {
-      'title': 'Help',
+      'title': 'Благотворительная помощь проекту',
       'leading': Icons.info_outline,
       'function': MiddleLoginRegisterPage(),
     },
