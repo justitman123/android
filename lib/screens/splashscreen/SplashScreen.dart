@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bmi_calculator/input_page/ChatModel.dart' show ChatModel, model;
-import 'package:bmi_calculator/input_page/ChatModel.dart' as prefix0;
 import 'package:bmi_calculator/input_page/loginScreen/localstorage/LocalStorage.dart';
 import 'package:bmi_calculator/screens/homescreen/HomeScreen.dart';
 import 'package:bmi_calculator/util/cache_manager.dart' show FileProvider, fileProvider;

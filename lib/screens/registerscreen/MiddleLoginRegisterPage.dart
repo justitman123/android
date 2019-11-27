@@ -182,8 +182,8 @@ class _MiddleLoginRegisterPageState extends State<MiddleLoginRegisterPage>
     return LeftLoginPage();
   }
 
-  Widget SignupPage() {
-    return RightRegisterPage();
+  Widget SignupPage(PageController controller) {
+    return RightRegisterPage(controller: controller,);
   }
 
   @override
@@ -193,7 +193,7 @@ class _MiddleLoginRegisterPageState extends State<MiddleLoginRegisterPage>
         child: PageView(
           controller: _controller,
           physics: new AlwaysScrollableScrollPhysics(),
-          children: <Widget>[LoginPage(), HomePage(), SignupPage()],
+          children: <Widget>[LoginPage(), HomePage(), SignupPage(_controller)],
           scrollDirection: Axis.horizontal,
         ));
   }

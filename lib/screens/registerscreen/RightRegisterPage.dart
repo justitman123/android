@@ -1,17 +1,30 @@
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class RightRegisterPage extends StatefulWidget {
+  PageController controller;
+
+  RightRegisterPage({this.controller});
+
   @override
   _RightRegisterPageState createState() => _RightRegisterPageState();
 }
 
 class _RightRegisterPageState extends State<RightRegisterPage>
     with SingleTickerProviderStateMixin {
+  PageController _controller;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
+  bool hidePass = true;
 
   @override
   void initState() {
+    super.initState();
+    _controller = widget.controller;
 //    isSignedIn();
   }
 
@@ -27,8 +40,6 @@ class _RightRegisterPageState extends State<RightRegisterPage>
         autovalidate: true,
         child: new Column(
           children: <Widget>[
-
-
             Container(
               padding: EdgeInsets.all(SizeConfig.safeBlockHorizontal * 10),
               child: Center(
@@ -41,30 +52,27 @@ class _RightRegisterPageState extends State<RightRegisterPage>
             ),
             Container(
               width: SizeConfig.safeBlockHorizontal * 90,
-              margin: const EdgeInsets.only( top: 10.0),
+              margin: const EdgeInsets.only(top: 10.0),
               alignment: Alignment.center,
               padding: const EdgeInsets.only(left: 0.0, right: 10.0),
               child: new Card(
                 child: TextFormField(
-//              controller: _nameController,
+                  controller: _nameController,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.account_box,
-                        color: Colors.redAccent),
+                    prefixIcon:
+                        Icon(Icons.account_box, color: Colors.redAccent),
                     hintText: "Username",
                     labelText: "Username",
                   ),
-                  // ignore: missing_return
                   validator: (val) {
                     if (val.isEmpty) {
                       return "Please Provide Username";
                     }
-                    // return "";
                   },
                   onSaved: (val) {
-//                _emailController.text = val;
+                    _nameController.text = val;
                   },
                   autocorrect: true,
-
                 ),
               ),
             ),
@@ -75,14 +83,14 @@ class _RightRegisterPageState extends State<RightRegisterPage>
               padding: const EdgeInsets.only(left: 0.0, right: 10.0),
               child: new Card(
                 child: TextFormField(
-//                  controller: _emailController,
+                  controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.alternate_email,
-                          color: Colors.redAccent),
+                      prefixIcon:
+                          Icon(Icons.alternate_email, color: Colors.redAccent),
                       hintText: "Email",
                       labelStyle: TextStyle(
-                        // color: Colors.white,
+                        color: Colors.white,
                       ),
                       labelText: "Email"),
                   // ignore: missing_return
@@ -90,10 +98,9 @@ class _RightRegisterPageState extends State<RightRegisterPage>
                     if (val.isEmpty) {
                       return "Please Provide Email";
                     }
-                    // return "";
                   },
                   onSaved: (val) {
-//                    _emailController.text = val;
+                    _emailController.text = val;
                   },
                   autocorrect: true,
                 ),
@@ -106,8 +113,8 @@ class _RightRegisterPageState extends State<RightRegisterPage>
               padding: const EdgeInsets.only(left: 0.0, right: 10.0),
               child: new Card(
                 child: TextFormField(
-//                  controller: _passwordController,
-//                  obscureText: hidePass,
+                  controller: _passwordController,
+                  obscureText: hidePass,
                   decoration: InputDecoration(
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -116,7 +123,7 @@ class _RightRegisterPageState extends State<RightRegisterPage>
                         ),
                         onPressed: () {
                           setState(() {
-//                            hidePass = false;
+                            hidePass = false;
                           });
                         },
                       ),
@@ -126,15 +133,13 @@ class _RightRegisterPageState extends State<RightRegisterPage>
                       ),
                       hintText: "Password",
                       labelText: "Password"),
-                  // ignore: missing_return
                   validator: (val) {
                     if (val.length < 6) {
                       return "Passsword must contain atleast 6 characters";
                     }
-                    // return "";
                   },
                   onSaved: (val) {
-//                    _passwordController.text = val;
+                    _passwordController.text = val;
                   },
                   autocorrect: true,
                 ),
@@ -147,8 +152,8 @@ class _RightRegisterPageState extends State<RightRegisterPage>
               padding: const EdgeInsets.only(left: 0.0, right: 10.0),
               child: Card(
                 child: TextFormField(
-//                  controller: _confirmPasswordController,
-//                  obscureText: hidePass,
+                  controller: _confirmPasswordController,
+                  obscureText: hidePass,
                   decoration: InputDecoration(
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -157,7 +162,7 @@ class _RightRegisterPageState extends State<RightRegisterPage>
                         ),
                         onPressed: () {
                           setState(() {
-//                            hidePass = false;
+                            hidePass = false;
                           });
                         },
                       ),
@@ -173,14 +178,13 @@ class _RightRegisterPageState extends State<RightRegisterPage>
                       return "Passsword must contain atleast 6 characters";
                     } else if (val.isEmpty) {
                       return "Password field can't be empty";
+                    } else if (_passwordController.text != val) {
+                      return "Password and Confirm Password didn't match";
                     }
-//                    else if (_passwordController.text != val) {
-//                      return "Password and Confirm Password didn't match";
-//                    }
                     // return "";
                   },
                   onSaved: (val) {
-//                    _passwordController.text = val;
+                    _passwordController.text = val;
                   },
                   autocorrect: true,
                 ),
@@ -198,7 +202,7 @@ class _RightRegisterPageState extends State<RightRegisterPage>
                 ),
                 color: Colors.redAccent,
                 onPressed: () async {
-//                signUpUser();
+                  signUpUser();
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(
@@ -219,6 +223,73 @@ class _RightRegisterPageState extends State<RightRegisterPage>
           ],
         ),
       ),
+    );
+  }
+
+  Future signUpUser() async {
+    FormState formState = _formKey.currentState;
+    if (formState.validate()) {
+      formState.reset();
+      _showLoadingIndicator();
+      var response =
+          await Dio().post('http://192.168.42.4:8060/uaa/auth/mobile', data: {
+        "userName": _nameController.text.toString(),
+        "password": _passwordController.text.toString(),
+        "email": _emailController.text,
+        "provider": "custom"
+      }).then((onValue) {
+        print('dfgfdgdfgd' + onValue.data.toString());
+        _controller.animateToPage(0,
+            duration: Duration(milliseconds: 800), curve: Curves.bounceOut);
+      });
+//      FirebaseUser user = await firebaseAuth.currentUser();
+      // FirebaseUser user;
+//      if (user == null) {
+//        firebaseAuth
+//            .createUserWithEmailAndPassword(
+//                email: _emailController.text,
+//                password: _passwordController.text)
+//            .then((user) {
+      // user.sendEmailVerification();
+      // here user.uid triggers an id inside the user which should match id of the user document
+//          userManagement.createUser(user.uid.toString(), {
+//            'userId': user.uid,
+//            'username': _nameController.text.toString(),
+//            'email': _emailController.text,
+//          }).CatchError((e) {
+//            print(e.toString());
+//          });
+//        });
+      // Navigator.of(context)
+      //     .push(MaterialPageRoute(builder: (context) => Login()));
+      // pushAndRemoveUtil makes users to not see the login screen when they press the back button
+
+//        Navigator.pushAndRemoveUntil(
+//          context,
+//          MaterialPageRoute(builder: (context) => Login()),
+//          (Route<dynamic> route) => false,
+//        );
+//      }
+    }
+  }
+
+  _showLoadingIndicator() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          content: Row(
+            children: <Widget>[
+              CircularProgressIndicator(),
+              SizedBox(
+                width: 20.0,
+              ),
+              Text("Loading!")
+            ],
+          ),
+        );
+      },
     );
   }
 }
