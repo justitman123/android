@@ -1,4 +1,6 @@
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
+import 'package:bmi_calculator/to/OAuthUser.dart';
+import 'package:bmi_calculator/util/userManagement.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +16,7 @@ class RightRegisterPage extends StatefulWidget {
 class _RightRegisterPageState extends State<RightRegisterPage>
     with SingleTickerProviderStateMixin {
   PageController _controller;
+  UserManagement userManagement = UserManagement();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -237,39 +240,27 @@ class _RightRegisterPageState extends State<RightRegisterPage>
         "password": _passwordController.text.toString(),
         "email": _emailController.text,
         "provider": "custom"
-      }).then((onValue) {
-        print('dfgfdgdfgd' + onValue.data.toString());
+      });
+      OAuthUser oAuthUser = OAuthUser.fromJSON(response.data);
+      if (oAuthUser != null) {
+        // user.sendEmailVerification();
+        // here user.uid triggers an id inside the user which should match id of the user document
+        userManagement.createUser(oAuthUser.id.toString(), {
+          'id': oAuthUser.id.toString(),
+          'user_name': _nameController.text.toString(),
+          'email': _emailController.text,
+          'password': oAuthUser.password,
+          'avatar_url': oAuthUser.avatarUrl,
+          'failure_count': oAuthUser.failureCount,
+          'failure_time': oAuthUser.failureTime,
+          'provider': oAuthUser.provider,
+          'registered': oAuthUser.registered.millisecondsSinceEpoch,
+        }).CatchError((e) {
+          print(e.toString());
+        });
         _controller.animateToPage(0,
             duration: Duration(milliseconds: 800), curve: Curves.bounceOut);
-      });
-//      FirebaseUser user = await firebaseAuth.currentUser();
-      // FirebaseUser user;
-//      if (user == null) {
-//        firebaseAuth
-//            .createUserWithEmailAndPassword(
-//                email: _emailController.text,
-//                password: _passwordController.text)
-//            .then((user) {
-      // user.sendEmailVerification();
-      // here user.uid triggers an id inside the user which should match id of the user document
-//          userManagement.createUser(user.uid.toString(), {
-//            'userId': user.uid,
-//            'username': _nameController.text.toString(),
-//            'email': _emailController.text,
-//          }).CatchError((e) {
-//            print(e.toString());
-//          });
-//        });
-      // Navigator.of(context)
-      //     .push(MaterialPageRoute(builder: (context) => Login()));
-      // pushAndRemoveUtil makes users to not see the login screen when they press the back button
-
-//        Navigator.pushAndRemoveUntil(
-//          context,
-//          MaterialPageRoute(builder: (context) => Login()),
-//          (Route<dynamic> route) => false,
-//        );
-//      }
+      }
     }
   }
 
