@@ -2,6 +2,7 @@ import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
 import 'package:bmi_calculator/to/OAuthUser.dart';
 import 'package:bmi_calculator/util/userManagement.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RightRegisterPage extends StatefulWidget {
@@ -16,6 +17,7 @@ class RightRegisterPage extends StatefulWidget {
 class _RightRegisterPageState extends State<RightRegisterPage>
     with SingleTickerProviderStateMixin {
   PageController _controller;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   UserManagement userManagement = UserManagement();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
@@ -243,20 +245,26 @@ class _RightRegisterPageState extends State<RightRegisterPage>
       });
       OAuthUser oAuthUser = OAuthUser.fromJSON(response.data);
       if (oAuthUser != null) {
-        // user.sendEmailVerification();
-        // here user.uid triggers an id inside the user which should match id of the user document
-        userManagement.createUser(oAuthUser.id.toString(), {
-          'id': oAuthUser.id.toString(),
-          'user_name': _nameController.text.toString(),
-          'email': _emailController.text,
-          'password': oAuthUser.password,
-          'avatar_url': oAuthUser.avatarUrl,
-          'failure_count': oAuthUser.failureCount,
-          'failure_time': oAuthUser.failureTime,
-          'provider': oAuthUser.provider,
-          'registered': oAuthUser.registered.millisecondsSinceEpoch,
-        }).CatchError((e) {
-          print(e.toString());
+        firebaseAuth
+            .createUserWithEmailAndPassword(
+                email: _emailController.text,
+                password: _passwordController.text)
+            .then((user) {
+          // user.sendEmailVerification();
+          // here user.uid triggers an id inside the user which should match id of the user document
+          userManagement.createUser(oAuthUser.id.toString(), {
+            'id': oAuthUser.id.toString(),
+            'user_name': _nameController.text.toString(),
+            'email': _emailController.text,
+            'password': oAuthUser.password,
+            'avatar_url': oAuthUser.avatarUrl,
+            'failure_count': oAuthUser.failureCount,
+            'failure_time': oAuthUser.failureTime,
+            'provider': oAuthUser.provider,
+            'registered': oAuthUser.registered.millisecondsSinceEpoch,
+          }).CatchError((e) {
+            print(e.toString());
+          });
         });
         _controller.animateToPage(0,
             duration: Duration(milliseconds: 800), curve: Curves.bounceOut);

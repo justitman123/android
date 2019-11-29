@@ -10,8 +10,7 @@ class UserManagement {
         .reference()
         .child("oauth_users/$uid")
         .push()
-        .set(data)
-        .catchError((e) => print(e.toString()));
+        .set(data);
   }
 
   // here user.uid triggers an id inside the user which should match id of the user document
