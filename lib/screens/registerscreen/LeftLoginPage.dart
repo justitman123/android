@@ -169,7 +169,7 @@ class _LeftLoginPageState extends State<LeftLoginPage> {
             ),
             new Container(
               width: SizeConfig.safeBlockHorizontal * 90,
-              margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
+              margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 5.0),
               alignment: Alignment.center,
               child: new Row(
                 children: <Widget>[
@@ -191,6 +191,106 @@ class _LeftLoginPageState extends State<LeftLoginPage> {
                             new Expanded(
                               child: Text(
                                 "LOGIN",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            new Container(
+              width: SizeConfig.safeBlockHorizontal * 90,
+              margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
+              alignment: Alignment.center,
+              child: Row(
+                children: <Widget>[
+                  new Expanded(
+                    child: new Container(
+                      margin: EdgeInsets.all(8.0),
+                      decoration:
+                      BoxDecoration(border: Border.all(width: 0.25)),
+                    ),
+                  ),
+                  Text(
+                    "OR CONNECT WITH",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                      fontSize: SizeConfig.safeBlockHorizontal * 3,
+                    ),
+                  ),
+                  new Expanded(
+                    child: new Container(
+                      margin: EdgeInsets.all(8.0),
+                      decoration:
+                      BoxDecoration(border: Border.all(width: 0.25)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            new Container(
+              width: SizeConfig.safeBlockHorizontal * 90,
+              margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
+              alignment: Alignment.center,
+              child: Row(
+                children: <Widget>[
+                  new Expanded(
+                    child: new Container(
+                      margin: EdgeInsets.all(8.0),
+                      decoration:
+                      BoxDecoration(border: Border.all(width: 0.25)),
+                    ),
+                  ),
+                  Text(
+                    "OR CONNECT WITH",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                      fontSize: SizeConfig.safeBlockHorizontal * 3,
+                    ),
+                  ),
+                  new Expanded(
+                    child: new Container(
+                      margin: EdgeInsets.all(8.0),
+                      decoration:
+                      BoxDecoration(border: Border.all(width: 0.25)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            new Container(
+              width: SizeConfig.safeBlockHorizontal * 90,
+              margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 15.0),
+              alignment: Alignment.center,
+              child: new Row(
+                children: <Widget>[
+                  new Expanded(
+                    child: new FlatButton(
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0),
+                      ),
+                      color: Colors.redAccent,
+                      onPressed: () => {},
+                      child: new Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 20.0,
+                          horizontal: 20.0,
+                        ),
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            new Expanded(
+                              child: Text(
+                                "REGISTER",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.white,
