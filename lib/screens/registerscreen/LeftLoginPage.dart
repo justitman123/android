@@ -2,7 +2,12 @@ import 'package:bmi_calculator/input_page/loginScreen/auth/googleSignIn.dart';
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
 import 'package:flutter/material.dart';
 
-class LeftLoginPage extends StatelessWidget {
+class LeftLoginPage extends StatefulWidget {
+  @override
+  _LeftLoginPageState createState() => _LeftLoginPageState();
+}
+
+class _LeftLoginPageState extends State<LeftLoginPage> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();

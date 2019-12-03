@@ -1,4 +1,6 @@
 import 'package:bmi_calculator/input_page/ChatModel.dart' show ChatModel, model;
+import 'package:bmi_calculator/screens/login/ui/loginPage.dart';
+import 'package:bmi_calculator/screens/login/ui/login_page.dart';
 import 'package:bmi_calculator/screens/registerscreen/MiddleLoginRegisterPage.dart';
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
 import 'package:bmi_calculator/input_page/utils.dart';
@@ -13,7 +15,7 @@ class AnonimousDrawer extends StatelessWidget {
     {
       'title': 'Вход и регистрация',
       'leading': Icons.person_pin,
-      'function': MiddleLoginRegisterPage(),
+      'function': Login(),
     },
     {
       'title': 'Связь с командой разработчиков',
@@ -23,7 +25,7 @@ class AnonimousDrawer extends StatelessWidget {
     {
       'title': 'Благотворительная помощь проекту',
       'leading': Icons.info_outline,
-      'function': MiddleLoginRegisterPage(),
+      'function': LoginPage(),
     },
   ];
   final Color primary = colorCurve;

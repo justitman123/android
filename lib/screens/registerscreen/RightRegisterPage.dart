@@ -4,6 +4,7 @@ import 'package:bmi_calculator/util/userManagement.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class RightRegisterPage extends StatefulWidget {
   PageController controller;
@@ -35,8 +36,9 @@ class _RightRegisterPageState extends State<RightRegisterPage>
 
   @override
   Widget build(BuildContext context) {
+    ProgressDialog pr = new ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: true);
     return new Container(
-      height: SizeConfig.safeBlockVertical * 10,
       decoration: BoxDecoration(
         color: Colors.white,
       ),
@@ -207,7 +209,7 @@ class _RightRegisterPageState extends State<RightRegisterPage>
                 ),
                 color: Colors.redAccent,
                 onPressed: () async {
-                  signUpUser();
+                  signUpUser(pr);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(
@@ -231,11 +233,11 @@ class _RightRegisterPageState extends State<RightRegisterPage>
     );
   }
 
-  Future signUpUser() async {
+  Future signUpUser(ProgressDialog pr) async {
     FormState formState = _formKey.currentState;
     if (formState.validate()) {
       formState.reset();
-      _showLoadingIndicator();
+      _showLoadingIndicator(pr);
       var response =
           await Dio().post('http://192.168.42.4:8060/uaa/auth/mobile', data: {
         "userName": _nameController.text.toString(),
@@ -244,51 +246,42 @@ class _RightRegisterPageState extends State<RightRegisterPage>
         "provider": "custom"
       });
       OAuthUser oAuthUser = OAuthUser.fromJSON(response.data);
-      if (oAuthUser != null) {
-        firebaseAuth
-            .createUserWithEmailAndPassword(
-                email: _emailController.text,
-                password: _passwordController.text)
-            .then((user) {
-          // user.sendEmailVerification();
-          // here user.uid triggers an id inside the user which should match id of the user document
-          userManagement.createUser(oAuthUser.id.toString(), {
-            'id': oAuthUser.id.toString(),
-            'user_name': _nameController.text.toString(),
-            'email': _emailController.text,
-            'password': oAuthUser.password,
-            'avatar_url': oAuthUser.avatarUrl,
-            'failure_count': oAuthUser.failureCount,
-            'failure_time': oAuthUser.failureTime,
-            'provider': oAuthUser.provider,
-            'registered': oAuthUser.registered.millisecondsSinceEpoch,
-          }).CatchError((e) {
-            print(e.toString());
-          });
+      FirebaseUser user = await firebaseAuth.currentUser();
+      if (user != null) {
+        userManagement.createUser('123213', <String, dynamic>{
+          'id': '123213',
+          'user_name': _nameController.text.toString(),
+          'email': _emailController.text,
+          'password': oAuthUser.password,
+          'avatar_url': oAuthUser.avatarUrl,
+          'failure_count': oAuthUser.failureCount,
+          'failure_time': oAuthUser.failureTime,
+          'provider': oAuthUser.provider,
+          'registered': oAuthUser.registered.millisecondsSinceEpoch,
+        }).CatchError((e) {
+          print(e.toString());
         });
-        _controller.animateToPage(0,
-            duration: Duration(milliseconds: 800), curve: Curves.bounceOut);
       }
+      pr.hide();
+      _controller.animateToPage(0,
+          duration: Duration(milliseconds: 800), curve: Curves.bounceOut);
     }
   }
 
-  _showLoadingIndicator() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          content: Row(
-            children: <Widget>[
-              CircularProgressIndicator(),
-              SizedBox(
-                width: 20.0,
-              ),
-              Text("Loading!")
-            ],
-          ),
-        );
-      },
+  _showLoadingIndicator(ProgressDialog pr) {
+    pr.style(
+        message: 'Downloading file...',
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: CircularProgressIndicator(),
+        elevation: 10.0,
+        insetAnimCurve: Curves.easeInOut,
+        progress: 0.0,
+        maxProgress: 100.0,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600)
     );
   }
 }
