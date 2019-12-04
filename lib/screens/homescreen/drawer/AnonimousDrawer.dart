@@ -1,12 +1,10 @@
 import 'package:bmi_calculator/input_page/ChatModel.dart' show ChatModel, model;
-import 'package:bmi_calculator/screens/login/ui/loginPage.dart';
-import 'package:bmi_calculator/screens/login/ui/login_page.dart';
-import 'package:bmi_calculator/screens/registerscreen/MiddleLoginRegisterPage.dart';
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
 import 'package:bmi_calculator/input_page/utils.dart';
 import 'package:bmi_calculator/screens/homescreen/HomeScreen.dart';
-import 'package:bmi_calculator/util/cache_manager.dart'
-    show FileProvider, fileProvider;
+import 'package:bmi_calculator/screens/registerscreen/MiddleLoginRegisterPage.dart';
+import 'package:bmi_calculator/screens/templogin/ui/loginPage.dart';
+import 'package:bmi_calculator/screens/templogin/ui/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -42,22 +40,21 @@ class AnonimousDrawer extends StatelessWidget {
               color: primary,
               width: SizeConfig.safeBlockVertical * 100,
               padding:
-              EdgeInsets.only(right: SizeConfig.safeBlockVertical * 15),
+                  EdgeInsets.only(right: SizeConfig.safeBlockVertical * 15),
               child: Column(
                 children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: SizeConfig.safeBlockVertical * 5),
-                      padding:
-                      EdgeInsets.all(SizeConfig.safeBlockHorizontal * 5),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: CircleAvatar(
-//                        backgroundImage: adssa,
-                        radius: SizeConfig.safeBlockHorizontal * 12,
-                      ),
+                  Container(
+                    margin:
+                        EdgeInsets.only(top: SizeConfig.safeBlockVertical * 5),
+                    padding: EdgeInsets.all(SizeConfig.safeBlockHorizontal * 5),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
                     ),
+                    child: CircleAvatar(
+//                        backgroundImage: adssa,
+                      radius: SizeConfig.safeBlockHorizontal * 12,
+                    ),
+                  ),
                   Expanded(
                     flex: 4,
                     child: ListView.builder(
@@ -70,6 +67,7 @@ class AnonimousDrawer extends StatelessWidget {
                           );
                         return InkWell(
                             onTap: () {
+                              Navigator.pop(context);
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
                                   drawerTiles[i ~/ 2]['function']));

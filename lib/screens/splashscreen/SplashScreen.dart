@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bmi_calculator/input_page/ChatModel.dart' show ChatModel, model;
 import 'package:bmi_calculator/input_page/loginScreen/localstorage/LocalStorage.dart';
+import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
 import 'package:bmi_calculator/screens/homescreen/HomeScreen.dart';
 import 'package:bmi_calculator/util/cache_manager.dart' show FileProvider, fileProvider;
 import 'package:dio/dio.dart';
@@ -33,9 +34,6 @@ class SplashScreenState extends State<SplashScreen> {
           return Scaffold(
               body: Center(
                   child: Container(
-//              width: size.getWidthPx(300),
-//              height: size.getWidthPx(300),
-//          child: Image.asset("assets/icons/logo_splash.png")))
                       child: Text('111fdgfdg'))));
         }));
   }

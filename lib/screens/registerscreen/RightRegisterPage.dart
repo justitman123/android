@@ -26,12 +26,15 @@ class _RightRegisterPageState extends State<RightRegisterPage>
   TextEditingController _nameController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
   bool hidePass = true;
+  var safeBlockHorizontal;
+  var safeBlockVertical;
 
   @override
   void initState() {
     super.initState();
+    safeBlockVertical = SizeConfig.safeBlockVertical;
+    safeBlockHorizontal = SizeConfig.safeBlockHorizontal;
     _controller = widget.controller;
-//    isSignedIn();
   }
 
   @override
@@ -39,27 +42,38 @@ class _RightRegisterPageState extends State<RightRegisterPage>
     ProgressDialog pr = new ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false, showLogs: true);
     return new Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-      ),
       child: Form(
         key: _formKey,
         autovalidate: true,
         child: new Column(
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(SizeConfig.safeBlockHorizontal * 10),
-              child: Center(
-                child: Icon(
-                  Icons.headset_mic,
-                  color: Colors.redAccent,
-                  size: SizeConfig.safeBlockVertical * 7,
+            InkWell(
+              child: Container(
+                margin: EdgeInsets.only(top: safeBlockVertical * 5),
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
+                    _controller?.animateToPage(0,
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.decelerate);
+                  },
                 ),
               ),
             ),
             Container(
-              width: SizeConfig.safeBlockHorizontal * 90,
-              margin: const EdgeInsets.only(top: 10.0),
+              padding: EdgeInsets.all(safeBlockHorizontal * 5),
+              child: Center(
+                child: Icon(
+                  Icons.headset_mic,
+                  color: Colors.redAccent,
+                  size: safeBlockVertical * 7,
+                ),
+              ),
+            ),
+            Container(
+              width: safeBlockHorizontal * 90,
+              margin: EdgeInsets.only(top: safeBlockHorizontal * 1),
               alignment: Alignment.center,
               padding: const EdgeInsets.only(left: 0.0, right: 10.0),
               child: new Card(
@@ -84,8 +98,8 @@ class _RightRegisterPageState extends State<RightRegisterPage>
               ),
             ),
             Container(
-              width: SizeConfig.safeBlockHorizontal * 90,
-              margin: const EdgeInsets.only(top: 10.0),
+              width: safeBlockHorizontal * 90,
+              margin: EdgeInsets.only(top: safeBlockHorizontal * 1),
               alignment: Alignment.center,
               padding: const EdgeInsets.only(left: 0.0, right: 10.0),
               child: new Card(
@@ -95,12 +109,11 @@ class _RightRegisterPageState extends State<RightRegisterPage>
                   decoration: InputDecoration(
                       prefixIcon:
                           Icon(Icons.alternate_email, color: Colors.redAccent),
-                      hintText: "Email",
+                      hintText: "samarthagarwal@live.com",
                       labelStyle: TextStyle(
-                        color: Colors.white,
+                        color: Colors.grey,
                       ),
                       labelText: "Email"),
-                  // ignore: missing_return
                   validator: (val) {
                     if (val.isEmpty) {
                       return "Please Provide Email";
@@ -114,8 +127,8 @@ class _RightRegisterPageState extends State<RightRegisterPage>
               ),
             ),
             Container(
-              width: SizeConfig.safeBlockHorizontal * 90,
-              margin: const EdgeInsets.only(top: 10.0),
+              width: safeBlockHorizontal * 90,
+              margin: EdgeInsets.only(top: safeBlockHorizontal * 1),
               alignment: Alignment.center,
               padding: const EdgeInsets.only(left: 0.0, right: 10.0),
               child: new Card(
@@ -153,8 +166,8 @@ class _RightRegisterPageState extends State<RightRegisterPage>
               ),
             ),
             Container(
-              width: SizeConfig.safeBlockHorizontal * 90,
-              margin: const EdgeInsets.only(top: 10.0),
+              width: safeBlockHorizontal * 90,
+              margin: EdgeInsets.only(top: safeBlockHorizontal * 1),
               alignment: Alignment.center,
               padding: const EdgeInsets.only(left: 0.0, right: 10.0),
               child: Card(
@@ -188,7 +201,6 @@ class _RightRegisterPageState extends State<RightRegisterPage>
                     } else if (_passwordController.text != val) {
                       return "Password and Confirm Password didn't match";
                     }
-                    // return "";
                   },
                   onSaved: (val) {
                     _passwordController.text = val;
@@ -199,13 +211,13 @@ class _RightRegisterPageState extends State<RightRegisterPage>
             ),
             Container(
               margin: EdgeInsets.only(
-                  left: SizeConfig.safeBlockVertical * 5,
-                  right: SizeConfig.safeBlockVertical * 5,
-                  top: SizeConfig.safeBlockVertical * 8),
+                  left: safeBlockVertical * 5,
+                  right: safeBlockVertical * 5,
+                  top: safeBlockVertical * 8),
               child: MaterialButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(
-                      SizeConfig.safeBlockVertical * 10),
+                      safeBlockVertical * 10),
                 ),
                 color: Colors.redAccent,
                 onPressed: () async {
@@ -281,7 +293,6 @@ class _RightRegisterPageState extends State<RightRegisterPage>
         progressTextStyle: TextStyle(
             color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
         messageTextStyle: TextStyle(
-            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600)
-    );
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600));
   }
 }
