@@ -1,20 +1,18 @@
-import 'dart:io';
-
 import 'package:bmi_calculator/input_page/chooseChatScreen/choose.dart';
-import 'package:bmi_calculator/screens/registerscreen/MiddleLoginRegisterPage.dart';
 import 'package:bmi_calculator/input_page/loginScreen/localstorage/LocalStorage.dart';
 import 'package:bmi_calculator/input_page/pacman_slider.dart';
 import 'package:bmi_calculator/input_page/responsive_screen.dart';
 import 'package:bmi_calculator/input_page/transition_dot.dart';
 import 'package:bmi_calculator/input_page/utils.dart';
+import 'package:bmi_calculator/screens/authentication_bloc/authentication_bloc.dart';
+import 'package:bmi_calculator/screens/authentication_bloc/authentication_state.dart';
+import 'package:bmi_calculator/screens/homescreen/drawer/AnonimousDrawer.dart';
 import 'package:bmi_calculator/screens/homescreen/drawer/CustomDrawer.dart';
+import 'package:bmi_calculator/screens/loginregisterscreen/MiddleLoginRegisterPage.dart';
 import 'package:bmi_calculator/widget_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:path_provider/path_provider.dart' as p;
-import 'package:path_provider/path_provider.dart';
 import 'package:web_socket_channel/io.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 class HomeScreen extends StatefulWidget {
   @override
   HomeScreenState createState() {
@@ -111,14 +109,13 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    size = Screen(MediaQuery.of(context).size);
     return Stack(
       children: <Widget>[
-        WillPopScope(
-          onWillPop: _onWillPop,
-          child:
+//        WillPopScope(
+//          onWillPop: _onWillPop,
+//          child:
               Scaffold(drawer: CustomDrawer(), appBar: appBar(), body: body()),
-        ),
+//        ),
         TransitionDot(animation: _submitAnimationController),
       ],
     );
@@ -202,8 +199,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           InkWell(
             onTap: () {
 //              fetchPost();
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => MiddleLoginRegisterPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => MiddleLoginRegisterPage()));
             },
             child: _showList(
               "My Account",

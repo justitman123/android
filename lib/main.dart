@@ -1,39 +1,35 @@
-import 'dart:io';
-
-import 'package:bmi_calculator/screens/registerscreen/MiddleLoginRegisterPage.dart';
+import 'package:bloc/bloc.dart';
+import 'package:bmi_calculator/repository/user_repository.dart';
+import 'package:bmi_calculator/screens/authentication_bloc/authentication_bloc.dart';
+import 'package:bmi_calculator/screens/authentication_bloc/authentication_event.dart';
 import 'package:bmi_calculator/screens/splashscreen/SplashScreen.dart';
-import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
-import 'package:bmi_calculator/screens/templogin/ui/loginPage.dart';
-import 'package:bmi_calculator/screens/templogin/ui/login_page.dart';
+import 'package:bmi_calculator/simple_bloc_delegate.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+  final UserRepository userRepository = UserRepository();
+  runApp(
+    BlocProvider(
+      create: (context) => AuthenticationBloc(
+        userRepository: userRepository,
+      )..add(AppStarted()),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter UI Collections',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: CollectionApp(),
-    );
-  }
-}
-
-class CollectionApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    SizeConfig().init(context);
-    return MaterialApp(
+        title: 'Flutter UI Collections',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Theme.of(context).primaryColor,
+          primarySwatch: Colors.blue,
         ),
         home: SplashScreen());
   }
