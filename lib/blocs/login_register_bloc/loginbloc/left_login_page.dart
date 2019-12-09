@@ -120,7 +120,7 @@ class _LeftLoginPageState extends State<LeftLoginPage> {
                           hintStyle: TextStyle(color: Colors.grey),
                           labelText: "Email"),
                       validator: (_) {
-                        return !state.isEmailValid ? 'Invalid Email' : null;
+                        return !state.isEmailValid ? 'Введите допустимый пароль' : null;
                       },
                       onSaved: (val) {
                         _emailController.text = val;

@@ -1,10 +1,11 @@
+import 'package:bmi_calculator/blocs/login_register_bloc/loginbloc/left_login_page.dart';
+import 'package:bmi_calculator/blocs/login_register_bloc/registerbloc/bloc/register_bloc.dart';
+import 'package:bmi_calculator/blocs/login_register_bloc/registerbloc/right_register_page.dart';
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
 import 'package:bmi_calculator/input_page/utils.dart';
 import 'package:bmi_calculator/repository/user_repository.dart';
-import 'package:bmi_calculator/screens/loginregisterscreen/LeftLoginPage.dart';
-import 'package:bmi_calculator/screens/loginregisterscreen/RightRegisterPage.dart';
 import 'package:bmi_calculator/screens/loginregisterscreen/login/bloc/login_bloc.dart';
-import 'package:bmi_calculator/screens/loginregisterscreen/register/bloc/bloc.dart';
+import 'package:bmi_calculator/blocs/login_register_bloc/registerbloc/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,7 +39,8 @@ class MiddleLoginRegisterPage extends StatelessWidget {
                     child: BlocProvider<LoginBloc>(
                       create: (context) =>
                           LoginBloc(userRepository: _userRepository),
-                      child: LeftLoginPage(userRepository: _userRepository,
+                      child: LeftLoginPage(
+                        userRepository: _userRepository,
                         controller: _controller,
                       ),
                     ),

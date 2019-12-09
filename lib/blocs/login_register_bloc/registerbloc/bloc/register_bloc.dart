@@ -1,8 +1,9 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:bmi_calculator/blocs/login_register_bloc/registerbloc/bloc/register_event.dart';
+import 'package:bmi_calculator/blocs/login_register_bloc/registerbloc/bloc/register_state.dart';
 import 'package:bmi_calculator/repository/user_repository.dart';
-import 'package:bmi_calculator/screens/loginregisterscreen/register/bloc/register_event.dart';
-import 'package:bmi_calculator/screens/loginregisterscreen/register/bloc/register_state.dart';
 import 'package:bmi_calculator/validators.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
@@ -41,8 +42,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       yield* _mapEmailChangedToState(event.email);
     } else if (event is PasswordChanged) {
       yield* _mapPasswordChangedToState(event.password);
+    } else if (event is PasswordChanged) {
+      yield* _mapPasswordConfirmedToState(event.passwordConfirmed);
     } else if (event is Submitted) {
-      yield* _mapFormSubmittedToState(event.email, event.password);
+      yield* _mapFormSubmittedToState(event.userName, event.email, event.password);
     }
   }
 
@@ -58,7 +61,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
   }
 
+
+
   Stream<RegisterState> _mapFormSubmittedToState(
+    String userName,
     String email,
     String password,
   ) async* {

@@ -1,7 +1,7 @@
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
 import 'package:bmi_calculator/input_page/utils.dart';
 import 'package:bmi_calculator/screens/homescreen/HomeScreen.dart';
-import 'package:bmi_calculator/screens/loginregisterscreen/MiddleLoginRegisterPage.dart';
+import 'package:bmi_calculator/blocs/login_register_bloc/middle_login_register_page.dart';
 import 'package:bmi_calculator/screens/templogin/ui/loginPage.dart';
 import 'package:bmi_calculator/screens/templogin/ui/login_page.dart';
 import 'package:flutter/material.dart';

@@ -1,17 +1,17 @@
+import 'package:bmi_calculator/blocs/login_register_bloc/registerbloc/bloc/register_bloc.dart';
+import 'package:bmi_calculator/blocs/login_register_bloc/registerbloc/bloc/register_state.dart';
+import 'package:bmi_calculator/blocs/login_register_bloc/registerbloc/register_button.dart';
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
 import 'package:bmi_calculator/repository/user_repository.dart';
 import 'package:bmi_calculator/screens/authentication_bloc/authentication_bloc.dart';
 import 'package:bmi_calculator/screens/authentication_bloc/authentication_event.dart';
-import 'package:bmi_calculator/screens/loginregisterscreen/register/bloc/register_bloc.dart';
-import 'package:bmi_calculator/screens/loginregisterscreen/register/bloc/register_event.dart';
-import 'package:bmi_calculator/screens/loginregisterscreen/register/bloc/register_state.dart';
-import 'package:bmi_calculator/to/OAuthUser.dart';
 import 'package:bmi_calculator/util/userManagement.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+
+import 'bloc/register_event.dart';
 
 class RightRegisterPage extends StatefulWidget {
   final PageController _controller;
@@ -47,19 +47,28 @@ class _RightRegisterPageState extends State<RightRegisterPage>
 
   PageController get _controller => widget._controller;
 
+  bool get isPopulated =>
+      _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
+
+  bool isRegisterButtonEnabled(RegisterState state) {
+    return state.isFormValid && isPopulated && !state.isSubmitting;
+  }
+
   @override
   void initState() {
     super.initState();
     _registerBloc = BlocProvider.of<RegisterBloc>(context);
     _emailController.addListener(_onEmailChanged);
     _passwordController.addListener(_onPasswordChanged);
+    _confirmPasswordController.addListener(_onPasswordConfirmed);
   }
 
   @override
   Widget build(BuildContext context) {
     ProgressDialog pr = new ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false, showLogs: true);
-    return BlocListener<RegisterBloc, RegisterState>(listener: (context, state) {
+    return BlocListener<RegisterBloc, RegisterState>(
+        listener: (context, state) {
       if (state.isSubmitting) {
         Scaffold.of(context)
           ..hideCurrentSnackBar()
@@ -96,7 +105,7 @@ class _RightRegisterPageState extends State<RightRegisterPage>
           );
       }
     }, child:
-        BlocBuilder<RegisterBloc, RegisterState>(builder: (context, state) {
+            BlocBuilder<RegisterBloc, RegisterState>(builder: (context, state) {
       return Container(
         child: Form(
           key: _formKey,
@@ -270,92 +279,15 @@ class _RightRegisterPageState extends State<RightRegisterPage>
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(
-                    left: SizeConfig.safeBlockVertical * 5,
-                    right: SizeConfig.safeBlockVertical * 5,
-                    top: SizeConfig.safeBlockVertical * 8),
-                child: MaterialButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(
-                        SizeConfig.safeBlockVertical * 10),
-                  ),
-                  color: Colors.redAccent,
-                  onPressed: () async {
-                    signUpUser(pr);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 20.0,
-                      horizontal: 20.0,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "SIGN UP",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              RegisterButton(
+                onPressed:
+                    isRegisterButtonEnabled(state) ? _onFormSubmitted : null,
+              )
             ],
           ),
         ),
       );
     }));
-  }
-
-  Future signUpUser(ProgressDialog pr) async {
-    FormState formState = _formKey.currentState;
-    if (formState.validate()) {
-      formState.reset();
-      _showLoadingIndicator(pr);
-      var response =
-          await Dio().post('http://192.168.42.4:8060/uaa/auth/mobile', data: {
-        "userName": _nameController.text.toString(),
-        "password": _passwordController.text.toString(),
-        "email": _emailController.text,
-        "provider": "custom"
-      });
-      OAuthUser oAuthUser = OAuthUser.fromJSON(response.data);
-      FirebaseUser user = await firebaseAuth.currentUser();
-      if (user != null) {
-        userManagement.createUser('123213', <String, dynamic>{
-          'id': '123213',
-          'user_name': _nameController.text.toString(),
-          'email': _emailController.text,
-          'password': oAuthUser.password,
-          'avatar_url': oAuthUser.avatarUrl,
-          'failure_count': oAuthUser.failureCount,
-          'failure_time': oAuthUser.failureTime,
-          'provider': oAuthUser.provider,
-          'registered': oAuthUser.registered.millisecondsSinceEpoch,
-        }).CatchError((e) {
-          print(e.toString());
-        });
-      }
-      pr.hide();
-      _controller.animateToPage(0,
-          duration: Duration(milliseconds: 800), curve: Curves.bounceOut);
-    }
-  }
-
-  _showLoadingIndicator(ProgressDialog pr) {
-    pr.style(
-        message: 'Downloading file...',
-        borderRadius: 10.0,
-        backgroundColor: Colors.white,
-        progressWidget: CircularProgressIndicator(),
-        elevation: 10.0,
-        insetAnimCurve: Curves.easeInOut,
-        progress: 0.0,
-        maxProgress: 100.0,
-        progressTextStyle: TextStyle(
-            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
-        messageTextStyle: TextStyle(
-            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600));
   }
 
   @override
@@ -368,6 +300,12 @@ class _RightRegisterPageState extends State<RightRegisterPage>
   void _onEmailChanged() {
     _registerBloc.add(
       EmailChanged(email: _emailController.text),
+    );
+  }
+
+  void _onPasswordConfirmed() {
+    _registerBloc.add(
+      PasswordConfirmed(passwordConfirmed: _confirmPasswordController.text),
     );
   }
 

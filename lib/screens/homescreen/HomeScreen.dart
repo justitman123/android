@@ -8,7 +8,7 @@ import 'package:bmi_calculator/screens/authentication_bloc/authentication_bloc.d
 import 'package:bmi_calculator/screens/authentication_bloc/authentication_state.dart';
 import 'package:bmi_calculator/screens/homescreen/drawer/AnonimousDrawer.dart';
 import 'package:bmi_calculator/screens/homescreen/drawer/CustomDrawer.dart';
-import 'package:bmi_calculator/screens/loginregisterscreen/MiddleLoginRegisterPage.dart';
+import 'package:bmi_calculator/blocs/login_register_bloc/middle_login_register_page.dart';
 import 'package:bmi_calculator/widget_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/io.dart';
