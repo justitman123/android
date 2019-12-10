@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bmi_calculator/repository/user_repository.dart';
-import 'package:bmi_calculator/screens/authentication_bloc/authentication_state.dart';
+import 'package:bmi_calculator/blocs/authentication_bloc/authentication_state.dart';
 import 'package:meta/meta.dart';
 
 import 'authentication_event.dart';

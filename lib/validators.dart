@@ -6,11 +6,19 @@ class Validators {
     r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
   );
 
+  static isValidUserName(String userName) {
+    return userName.length > 0;
+  }
+
   static isValidEmail(String email) {
     return _emailRegExp.hasMatch(email);
   }
 
   static isValidPassword(String password) {
     return _passwordRegExp.hasMatch(password);
+  }
+
+  static isPasswordConfirmed(String password, String passwordConfirmed) {
+    return password == passwordConfirmed;
   }
 }

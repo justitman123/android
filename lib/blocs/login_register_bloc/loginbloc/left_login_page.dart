@@ -1,8 +1,8 @@
 import 'package:bmi_calculator/input_page/loginScreen/auth/googleSignIn.dart';
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
 import 'package:bmi_calculator/repository/user_repository.dart';
-import 'package:bmi_calculator/screens/authentication_bloc/authentication_bloc.dart';
-import 'package:bmi_calculator/screens/authentication_bloc/authentication_event.dart';
+import 'package:bmi_calculator/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:bmi_calculator/blocs/authentication_bloc/authentication_event.dart';
 import 'package:bmi_calculator/screens/loginregisterscreen/login/bloc/login_bloc.dart';
 import 'package:bmi_calculator/screens/loginregisterscreen/login/bloc/login_event.dart';
 import 'package:bmi_calculator/screens/loginregisterscreen/login/bloc/login_state.dart';

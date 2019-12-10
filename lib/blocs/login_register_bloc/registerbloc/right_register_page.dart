@@ -1,10 +1,10 @@
+import 'package:bmi_calculator/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:bmi_calculator/blocs/authentication_bloc/authentication_event.dart';
 import 'package:bmi_calculator/blocs/login_register_bloc/registerbloc/bloc/register_bloc.dart';
 import 'package:bmi_calculator/blocs/login_register_bloc/registerbloc/bloc/register_state.dart';
 import 'package:bmi_calculator/blocs/login_register_bloc/registerbloc/register_button.dart';
 import 'package:bmi_calculator/input_page/size/SizeConfig.dart';
 import 'package:bmi_calculator/repository/user_repository.dart';
-import 'package:bmi_calculator/screens/authentication_bloc/authentication_bloc.dart';
-import 'package:bmi_calculator/screens/authentication_bloc/authentication_event.dart';
 import 'package:bmi_calculator/util/userManagement.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,7 @@ class _RightRegisterPageState extends State<RightRegisterPage>
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   bool hidePass = true;
@@ -48,7 +48,9 @@ class _RightRegisterPageState extends State<RightRegisterPage>
   PageController get _controller => widget._controller;
 
   bool get isPopulated =>
-      _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
+      _userNameController.text.isNotEmpty &&
+      _emailController.text.isNotEmpty &&
+      _passwordController.text.isNotEmpty;
 
   bool isRegisterButtonEnabled(RegisterState state) {
     return state.isFormValid && isPopulated && !state.isSubmitting;
@@ -58,6 +60,7 @@ class _RightRegisterPageState extends State<RightRegisterPage>
   void initState() {
     super.initState();
     _registerBloc = BlocProvider.of<RegisterBloc>(context);
+    _userNameController.addListener(_onUserNameChanged);
     _emailController.addListener(_onEmailChanged);
     _passwordController.addListener(_onPasswordChanged);
     _confirmPasswordController.addListener(_onPasswordConfirmed);
@@ -145,7 +148,7 @@ class _RightRegisterPageState extends State<RightRegisterPage>
                 padding: const EdgeInsets.only(left: 0.0, right: 10.0),
                 child: new Card(
                   child: TextFormField(
-                    controller: _nameController,
+                    controller: _userNameController,
                     decoration: InputDecoration(
                       prefixIcon:
                           Icon(Icons.account_box, color: Colors.redAccent),
@@ -158,7 +161,7 @@ class _RightRegisterPageState extends State<RightRegisterPage>
                       }
                     },
                     onSaved: (val) {
-                      _nameController.text = val;
+                      _userNameController.text = val;
                     },
                     autocorrect: true,
                   ),
@@ -297,6 +300,12 @@ class _RightRegisterPageState extends State<RightRegisterPage>
     super.dispose();
   }
 
+  void _onUserNameChanged() {
+    _registerBloc.add(
+      UserNameChanged(userName: _userNameController.text),
+    );
+  }
+
   void _onEmailChanged() {
     _registerBloc.add(
       EmailChanged(email: _emailController.text),
@@ -305,7 +314,9 @@ class _RightRegisterPageState extends State<RightRegisterPage>
 
   void _onPasswordConfirmed() {
     _registerBloc.add(
-      PasswordConfirmed(passwordConfirmed: _confirmPasswordController.text),
+      PasswordConfirmed(
+          password: _passwordController.text,
+          passwordConfirmed: _confirmPasswordController.text),
     );
   }
 

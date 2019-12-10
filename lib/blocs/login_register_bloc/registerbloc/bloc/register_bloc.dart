@@ -25,10 +25,16 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   ) {
     final observableStream = events as Observable<RegisterEvent>;
     final nonDebounceStream = observableStream.where((event) {
-      return (event is! EmailChanged && event is! PasswordChanged);
+      return (event is! EmailChanged &&
+          event is! PasswordChanged &&
+          event is! UserNameChanged &&
+          event is! PasswordConfirmed);
     });
     final debounceStream = observableStream.where((event) {
-      return (event is EmailChanged || event is PasswordChanged);
+      return (event is EmailChanged ||
+          event is PasswordChanged ||
+          event is UserNameChanged ||
+          event is PasswordConfirmed);
     }).debounceTime(Duration(milliseconds: 300));
     return super
         .transformEvents(nonDebounceStream.mergeWith([debounceStream]), next);
@@ -38,15 +44,25 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   Stream<RegisterState> mapEventToState(
     RegisterEvent event,
   ) async* {
-    if (event is EmailChanged) {
+    if (event is UserNameChanged) {
+      yield* _mapUserNameChangedToState(event.userName);
+    } else if (event is EmailChanged) {
       yield* _mapEmailChangedToState(event.email);
     } else if (event is PasswordChanged) {
       yield* _mapPasswordChangedToState(event.password);
-    } else if (event is PasswordChanged) {
-      yield* _mapPasswordConfirmedToState(event.passwordConfirmed);
+    } else if (event is PasswordConfirmed) {
+      yield* _mapPasswordConfirmedToState(
+          event.password, event.passwordConfirmed);
     } else if (event is Submitted) {
-      yield* _mapFormSubmittedToState(event.userName, event.email, event.password);
+      yield* _mapFormSubmittedToState(
+          event.userName, event.email, event.password);
     }
+  }
+
+  Stream<RegisterState> _mapUserNameChangedToState(String userName) async* {
+    yield state.update(
+      isUserNameValid: Validators.isValidUserName(userName),
+    );
   }
 
   Stream<RegisterState> _mapEmailChangedToState(String email) async* {
@@ -61,7 +77,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
   }
 
-
+  Stream<RegisterState> _mapPasswordConfirmedToState(
+      String password, String passwordConfirmed) async* {
+    yield state.update(
+      isPasswordValid:
+          Validators.isPasswordConfirmed(password, passwordConfirmed),
+    );
+  }
 
   Stream<RegisterState> _mapFormSubmittedToState(
     String userName,

@@ -32,39 +32,39 @@ class UserRepository {
   Future<void> signUp({String email, String password}) async {
 
 //    _showLoadingIndicator(pr);
-    var response =
-    await Dio().post('http://192.168.42.4:8060/uaa/auth/mobile', data: {
-      "userName": _nameController.text.toString(),
-      "password": _passwordController.text.toString(),
-      "email": _emailController.text,
-      "provider": "custom"
-    });
-    OAuthUser oAuthUser = OAuthUser.fromJSON(response.data);
-    FirebaseUser user = await firebaseAuth.currentUser();
-    if (user != null) {
-      userManagement.createUser('123213', <String, dynamic>{
-        'id': '123213',
-        'user_name': _nameController.text.toString(),
-        'email': _emailController.text,
-        'password': oAuthUser.password,
-        'avatar_url': oAuthUser.avatarUrl,
-        'failure_count': oAuthUser.failureCount,
-        'failure_time': oAuthUser.failureTime,
-        'provider': oAuthUser.provider,
-        'registered': oAuthUser.registered.millisecondsSinceEpoch,
-      }).CatchError((e) {
-        print(e.toString());
-      });
-    }
-    pr.hide();
-    _controller.animateToPage(0,
-        duration: Duration(milliseconds: 800), curve: Curves.bounceOut);
-
-
-    return await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+//    var response =
+//    await Dio().post('http://192.168.42.4:8060/uaa/auth/mobile', data: {
+//      "userName": _nameController.text.toString(),
+//      "password": _passwordController.text.toString(),
+//      "email": _emailController.text,
+//      "provider": "custom"
+//    });
+//    OAuthUser oAuthUser = OAuthUser.fromJSON(response.data);
+//    FirebaseUser user = await firebaseAuth.currentUser();
+//    if (user != null) {
+//      userManagement.createUser('123213', <String, dynamic>{
+//        'id': '123213',
+//        'user_name': _nameController.text.toString(),
+//        'email': _emailController.text,
+//        'password': oAuthUser.password,
+//        'avatar_url': oAuthUser.avatarUrl,
+//        'failure_count': oAuthUser.failureCount,
+//        'failure_time': oAuthUser.failureTime,
+//        'provider': oAuthUser.provider,
+//        'registered': oAuthUser.registered.millisecondsSinceEpoch,
+//      }).CatchError((e) {
+//        print(e.toString());
+//      });
+//    }
+//    pr.hide();
+//    _controller.animateToPage(0,
+//        duration: Duration(milliseconds: 800), curve: Curves.bounceOut);
+//
+//
+//    return await _firebaseAuth.createUserWithEmailAndPassword(
+//      email: email,
+//      password: password,
+//    );
   }
 
   Future<void> signOut() async {

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bmi_calculator/repository/user_repository.dart';
-import 'package:bmi_calculator/screens/authentication_bloc/authentication_bloc.dart';
-import 'package:bmi_calculator/screens/authentication_bloc/authentication_event.dart';
+import 'package:bmi_calculator/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:bmi_calculator/blocs/authentication_bloc/authentication_event.dart';
 import 'package:bmi_calculator/screens/splashscreen/SplashScreen.dart';
 import 'package:bmi_calculator/simple_bloc_delegate.dart';
 import 'package:flutter/material.dart';
