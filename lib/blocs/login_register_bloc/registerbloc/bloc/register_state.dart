@@ -93,6 +93,7 @@ class RegisterState {
   }) {
     return RegisterState(
       isEmailValid: isEmailValid ?? this.isEmailValid,
+      isUserNameValid: isUserNameValid ?? this.isUserNameValid,
       isPasswordValid: isPasswordValid ?? this.isPasswordValid,
       isPasswordConfirmed: isPasswordConfirmed ?? this.isPasswordConfirmed,
       isSubmitting: isSubmitting ?? this.isSubmitting,

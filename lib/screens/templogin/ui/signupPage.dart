@@ -235,7 +235,6 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
                               } else if (_passwordController.text != val) {
                                 return "Password and Confirm Password didn't match";
                               }
-                              // return "";
                             },
                             onSaved: (val) {
                               _passwordController.text = val;

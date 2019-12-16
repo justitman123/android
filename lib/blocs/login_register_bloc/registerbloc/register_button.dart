@@ -16,14 +16,13 @@ class RegisterButton extends StatelessWidget {
           right: SizeConfig.safeBlockVertical * 5,
           top: SizeConfig.safeBlockVertical * 8),
       child: MaterialButton(
+        disabledColor: Colors.grey,
         shape: RoundedRectangleBorder(
           borderRadius:
               new BorderRadius.circular(SizeConfig.safeBlockVertical * 10),
         ),
         color: Colors.redAccent,
-        onPressed: () async {
-          _onPressed;
-        },
+        onPressed: _onPressed,
         child: Container(
           padding: const EdgeInsets.symmetric(
             vertical: 20.0,

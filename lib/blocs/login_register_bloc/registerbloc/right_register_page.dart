@@ -329,6 +329,7 @@ class _RightRegisterPageState extends State<RightRegisterPage>
   void _onFormSubmitted() {
     _registerBloc.add(
       Submitted(
+        userName: _userNameController.text,
         email: _emailController.text,
         password: _passwordController.text,
       ),
